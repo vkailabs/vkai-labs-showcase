@@ -155,27 +155,29 @@ body {
   justify-content: center;
 }
 
-/* The slide controller programmatically focuses `.slide-inner` after each
-   navigation for screen-reader users (see script.js). Suppress the default
-   ring for that programmatic/mouse focus, but keep a subtle teal indicator for
-   genuine keyboard focus so accessibility isn't silently broken. */
-.slide-inner:focus {
-  outline: none;
-}
-.slide-inner:focus-visible {
-  outline: 2px solid var(--accent-glow);
-  outline-offset: -2px;
-  border-radius: 8px;
-}
-
-/* Suppress the default ring on mouse/programmatic focus for the interactive
-   chrome. Each element's own `:focus-visible` rule (defined later in the file)
-   restores a teal indicator for genuine keyboard focus. */
+/* Keyboard-only focus ring — deterministic.
+   `:focus-visible` is unreliable for the programmatic `.focus()` the slide
+   controller performs after navigation (see script.js): Chrome's heuristic can
+   render the ring even on mouse-driven nav. Instead we track real Tab usage via
+   a `user-is-tabbing` class on <body> (added on Tab keydown, removed on any
+   mouse/touch press) and gate the outline on that class. No `:focus-visible`. */
+.slide-inner:focus,
+[data-zoomable]:focus,
 .next-btn:focus,
 .dot:focus,
 .link-box:focus,
 .lightbox-close:focus {
   outline: none;
+}
+body.user-is-tabbing .slide-inner:focus,
+body.user-is-tabbing [data-zoomable]:focus,
+body.user-is-tabbing .next-btn:focus,
+body.user-is-tabbing .dot:focus,
+body.user-is-tabbing .link-box:focus,
+body.user-is-tabbing .lightbox-close:focus {
+  outline: 2px solid var(--accent-glow);
+  outline-offset: -2px;
+  border-radius: 8px;
 }
 
 /* ---------- Typography ---------- */
@@ -371,18 +373,11 @@ body {
   pointer-events: none;
 }
 [data-zoomable]:hover .zoom-hint,
-[data-zoomable]:focus-visible .zoom-hint {
+body.user-is-tabbing [data-zoomable]:focus .zoom-hint {
   opacity: 1;
 }
-/* Zoomable diagram figures are role=button, tabindex=0 — no default ring on
-   click, teal ring on keyboard focus. */
-[data-zoomable]:focus {
-  outline: none;
-}
-[data-zoomable]:focus-visible {
-  outline: 2px solid var(--accent-glow);
-  outline-offset: 3px;
-}
+/* Outline for zoomable figures (role=button, tabindex=0) is handled by the
+   keyboard-only focus-ring block near the top of this file. */
 
 /* ---------- CTA / link boxes ---------- */
 .cta-block {
@@ -422,20 +417,15 @@ body {
   transition: opacity 200ms ease;
 }
 .link-box:hover,
-.link-box:focus-visible {
+body.user-is-tabbing .link-box:focus {
   border-color: rgba(20, 184, 166, 0.5);
   box-shadow: 0 0 0 1px rgba(20, 184, 166, 0.18), 0 0 46px -14px rgba(20, 184, 166, 0.5);
   transform: translateY(-2px);
-  outline: none;
 }
-/* Keyboard focus gets a distinct outline on top of the glow (which otherwise
-   looks identical to hover). Defined after the rule above so it wins. */
-.link-box:focus-visible {
-  outline: 2px solid var(--accent-glow);
-  outline-offset: 3px;
-}
+/* The teal outline for keyboard focus is handled by the keyboard-only
+   focus-ring block near the top of this file. */
 .link-box:hover::before,
-.link-box:focus-visible::before {
+body.user-is-tabbing .link-box:focus::before {
   opacity: 1;
 }
 .link-box-arrow {
@@ -447,7 +437,7 @@ body {
   transition: transform 220ms var(--ease);
 }
 .link-box:hover .link-box-arrow,
-.link-box:focus-visible .link-box-arrow {
+body.user-is-tabbing .link-box:focus .link-box-arrow {
   transform: translate(5px, -2px);
 }
 .link-box-title {
@@ -503,10 +493,7 @@ body {
   box-shadow: 0 0 40px -6px rgba(20, 184, 166, 0.7);
   transform: translateY(-1px);
 }
-.next-btn:focus-visible {
-  outline: 2px solid var(--accent-glow);
-  outline-offset: 3px;
-}
+/* .next-btn keyboard outline handled by the keyboard-only focus-ring block. */
 .next-btn-arrow {
   font-size: 16px;
   transition: transform 220ms var(--ease);
@@ -555,10 +542,7 @@ body {
   background: var(--accent-glow);
   box-shadow: 0 0 12px 1px rgba(20, 184, 166, 0.7);
 }
-.dot:focus-visible {
-  outline: 2px solid var(--accent-glow);
-  outline-offset: 3px;
-}
+/* .dot keyboard outline handled by the keyboard-only focus-ring block. */
 
 /* ---------- Lightbox ---------- */
 .lightbox {
@@ -626,10 +610,7 @@ body {
   border-color: var(--accent-glow);
   transform: rotate(90deg);
 }
-.lightbox-close:focus-visible {
-  outline: 2px solid var(--accent-glow);
-  outline-offset: 3px;
-}
+/* .lightbox-close keyboard outline handled by the keyboard-only focus-ring block. */
 .lightbox-hint {
   position: fixed;
   bottom: 20px;

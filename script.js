@@ -8,6 +8,27 @@
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
+  /* ---------- Keyboard-only focus ring ----------
+     `:focus-visible` is unreliable for the programmatic `.focus()` we call after
+     slide navigation (Chrome can render the ring on mouse-driven nav). Track real
+     Tab usage explicitly: add `user-is-tabbing` to <body> on Tab keydown, remove
+     it on any mouse/touch press. The CSS only shows outlines while that class is
+     present, so mouse/programmatic focus never draws a ring. */
+  document.addEventListener(
+    "keydown",
+    function (e) {
+      if (e.key === "Tab") {
+        document.body.classList.add("user-is-tabbing");
+      }
+    },
+    true
+  );
+  function clearTabbing() {
+    document.body.classList.remove("user-is-tabbing");
+  }
+  document.addEventListener("mousedown", clearTabbing, true);
+  document.addEventListener("touchstart", clearTabbing, true);
+
   /* ---------- Slide navigation ---------- */
   var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
   var dots = Array.prototype.slice.call(document.querySelectorAll(".dot"));
