@@ -155,6 +155,29 @@ body {
   justify-content: center;
 }
 
+/* The slide controller programmatically focuses `.slide-inner` after each
+   navigation for screen-reader users (see script.js). Suppress the default
+   ring for that programmatic/mouse focus, but keep a subtle teal indicator for
+   genuine keyboard focus so accessibility isn't silently broken. */
+.slide-inner:focus {
+  outline: none;
+}
+.slide-inner:focus-visible {
+  outline: 2px solid var(--accent-glow);
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+
+/* Suppress the default ring on mouse/programmatic focus for the interactive
+   chrome. Each element's own `:focus-visible` rule (defined later in the file)
+   restores a teal indicator for genuine keyboard focus. */
+.next-btn:focus,
+.dot:focus,
+.link-box:focus,
+.lightbox-close:focus {
+  outline: none;
+}
+
 /* ---------- Typography ---------- */
 .eyebrow {
   font-family: var(--mono);
@@ -351,6 +374,15 @@ body {
 [data-zoomable]:focus-visible .zoom-hint {
   opacity: 1;
 }
+/* Zoomable diagram figures are role=button, tabindex=0 — no default ring on
+   click, teal ring on keyboard focus. */
+[data-zoomable]:focus {
+  outline: none;
+}
+[data-zoomable]:focus-visible {
+  outline: 2px solid var(--accent-glow);
+  outline-offset: 3px;
+}
 
 /* ---------- CTA / link boxes ---------- */
 .cta-block {
@@ -395,6 +427,12 @@ body {
   box-shadow: 0 0 0 1px rgba(20, 184, 166, 0.18), 0 0 46px -14px rgba(20, 184, 166, 0.5);
   transform: translateY(-2px);
   outline: none;
+}
+/* Keyboard focus gets a distinct outline on top of the glow (which otherwise
+   looks identical to hover). Defined after the rule above so it wins. */
+.link-box:focus-visible {
+  outline: 2px solid var(--accent-glow);
+  outline-offset: 3px;
 }
 .link-box:hover::before,
 .link-box:focus-visible::before {
