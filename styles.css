@@ -240,14 +240,45 @@ body.user-is-tabbing .lightbox-close:focus {
 
 /* ---------- Slide 1 ---------- */
 .slide-intro {
-  align-items: flex-start;
+  align-items: stretch;
   text-align: left;
+  max-width: 1440px;
+  gap: clamp(14px, 3vh, 32px);
 }
 .slide-intro .headline-xl {
   background: linear-gradient(180deg, #ffffff 30%, #b9c6d3 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* Full-bleed orchestration-flow banner across the top of the landing page.
+   The image is dark-themed, so it sits directly on the page background (no
+   card frame), consistent with the System Flow diagram. 100vw breakout +
+   translateX(-50%) centres it edge-to-edge regardless of the slide padding;
+   body has overflow:hidden so the breakout never produces a scrollbar. */
+.intro-banner {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  height: auto;
+  max-height: clamp(140px, 26vh, 300px);
+  object-fit: contain;
+  display: block;
+  flex: 0 0 auto;
+}
+
+/* Copy on the left, concept word-cloud pinned to the extreme right. */
+.intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  align-items: center;
+  gap: clamp(20px, 4vw, 60px);
+  min-height: 0;
+}
+.intro-copy {
+  min-width: 0;
 }
 .subhead {
   margin: 26px 0 0;
@@ -275,6 +306,41 @@ body.user-is-tabbing .lightbox-close:focus {
   padding: 6px 12px;
   border-radius: 999px;
 }
+
+/* ---------- Slide 1 concept word-cloud (right column) ---------- */
+/* Wordle-style cloud, but every term is horizontal and readable: a
+   baseline-aligned flex-wrap of mixed-size terms. Sizes scale with viewport
+   width (cqi-free clamps) so nothing overflows the right column. */
+.wordcloud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  align-content: center;
+  gap: clamp(3px, 0.5vh, 8px) clamp(7px, 0.8vw, 14px);
+  line-height: 1;
+  padding: clamp(6px, 1.4vw, 18px);
+  border-left: 1px solid var(--border);
+  min-width: 0;
+}
+.wordcloud span {
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  display: inline-block;
+}
+/* Size tiers */
+.wc-xl { font-size: clamp(26px, 2.9vw, 42px); font-weight: 800; }
+.wc-lg { font-size: clamp(19px, 2.1vw, 30px); }
+.wc-md { font-size: clamp(15px, 1.55vw, 22px); }
+.wc-sm { font-size: clamp(12px, 1.15vw, 16px); font-weight: 600; }
+.wc-xs { font-size: clamp(11px, 1vw, 14px); font-weight: 600; }
+/* Colour tones — on-brand teal family + white + muted */
+.wc-white { color: var(--text); }
+.wc-teal  { color: var(--accent-glow); }
+.wc-teal2 { color: #5fd6c6; }
+.wc-mute  { color: var(--text-muted); }
 
 /* ---------- Diagram slides (2 & 3) ---------- */
 .slide-diagram,
@@ -663,6 +729,17 @@ body.user-is-tabbing .link-box:focus .link-box-arrow {
   }
   .diagram-bare {
     flex-basis: 50%;
+  }
+  /* Stack the intro: copy first, word-cloud below; drop the divider */
+  .intro-grid {
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 4vh, 28px);
+  }
+  .wordcloud {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+    padding-top: clamp(12px, 3vh, 20px);
+    justify-content: flex-start;
   }
 }
 
