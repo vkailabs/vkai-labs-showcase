@@ -342,26 +342,36 @@ body.user-is-tabbing .lightbox-close:focus {
 .wc-teal2 { color: #5fd6c6; }
 .wc-mute  { color: var(--text-muted); }
 
-/* ---------- Diagram slides (2 & 3) ---------- */
+/* ---------- Diagram / flow slides (content slides 2–5) ----------
+   Split layout: heading copy (+ CTA on the flow slide) in the left 40 %,
+   the clickable diagram filling the right 60 % at full slide height. */
 .slide-diagram,
 .slide-flow {
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); /* 40% / 60% */
+  grid-template-rows: minmax(0, 1fr); /* single row fills the slide height */
+  align-items: stretch;
+  gap: clamp(24px, 3.5vw, 60px);
+  max-width: 1500px;
 }
-.slide-diagram {
-  gap: clamp(10px, 1.8vh, 20px);
-  padding-top: clamp(6px, 1.6vh, 18px);
-}
-.slide-flow {
-  gap: clamp(10px, 1.8vh, 18px);
-  padding-top: clamp(6px, 1.6vh, 18px);
+
+/* Left column: vertically centred copy stack. */
+.slide-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(18px, 3.4vh, 36px);
+  min-width: 0;
+  height: 100%;
 }
 .slide-head {
   flex: 0 0 auto;
 }
 
 .diagram-card {
-  flex: 1 1 auto;
+  height: 100%;
   min-height: 0;
+  min-width: 0;
   margin: 0;
   display: flex;
   align-items: center;
@@ -395,10 +405,11 @@ body.user-is-tabbing .lightbox-close:focus {
   display: block;
 }
 
-/* ---------- Slide 4 (bare dark diagram) ---------- */
+/* ---------- Bare dark diagrams (Test Automation + System Flow) ---------- */
 .diagram-bare {
-  flex: 1 1 72%;
+  height: 100%;
   min-height: 0;
+  min-width: 0;
   margin: 0;
   display: flex;
   align-items: center;
@@ -461,6 +472,36 @@ body.user-is-tabbing [data-zoomable]:focus .zoom-hint {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+}
+
+/* On the System Flow slide the CTA sits in the narrow left column: stack the
+   two portal cards and tighten them so the diagram keeps the full right 60 %. */
+.slide-flow .link-boxes {
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.slide-flow .link-box {
+  padding: clamp(11px, 1.4vw, 15px) clamp(13px, 1.6vw, 18px);
+}
+.slide-flow .link-box-title {
+  font-size: clamp(15px, 1.6vw, 18px);
+  margin-bottom: 4px;
+}
+.slide-flow .link-box-desc {
+  font-size: clamp(12px, 1.2vw, 13px);
+  line-height: 1.4;
+  max-width: none;
+}
+.slide-flow .link-box-arrow {
+  top: 14px;
+  right: 16px;
+  font-size: 18px;
+}
+.slide-flow .link-box-ext {
+  margin-top: 7px;
+}
+.slide-flow .cta-title {
+  font-size: clamp(16px, 1.8vw, 20px);
 }
 .link-box {
   position: relative;
@@ -532,7 +573,7 @@ body.user-is-tabbing .link-box:focus .link-box-arrow {
 /* ---------- Next button ---------- */
 .next-btn {
   position: fixed;
-  left: clamp(16px, 3vw, 40px);
+  right: clamp(16px, 3vw, 40px);
   bottom: clamp(18px, 3vh, 36px);
   z-index: 40;
   display: inline-flex;
@@ -714,21 +755,25 @@ body.user-is-tabbing .link-box:focus .link-box-arrow {
     bottom: 80px;
   }
   .next-btn {
-    left: 50%;
-    transform: translateX(-50%);
+    right: 16px;
     bottom: 20px;
-  }
-  .next-btn:hover {
-    transform: translateX(-50%) translateY(-1px);
-  }
-  .next-btn.is-hidden {
-    transform: translateX(-50%) translateY(8px);
   }
   .tech-row {
     gap: 8px;
   }
-  .diagram-bare {
-    flex-basis: 50%;
+  /* Stack the split content slides: heading (+ CTA) on top, diagram below. */
+  .slide-diagram,
+  .slide-flow {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: clamp(14px, 3vh, 24px);
+  }
+  .slide-copy {
+    height: auto;
+    gap: clamp(14px, 2.6vh, 22px);
+  }
+  .slide-flow .link-boxes {
+    grid-template-columns: 1fr 1fr;
   }
   /* Stack the intro: copy first, word-cloud below; drop the divider */
   .intro-grid {

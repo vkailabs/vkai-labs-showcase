@@ -85,52 +85,25 @@
     </div>
   </section>
 
-  <!-- ============ SLIDE 2 — ARCHITECTURE ============ -->
+  <!-- ============ SLIDE 2 — AI ORCHESTRATION ============ -->
   <section
     class="slide"
     id="slide-2"
     data-index="1"
     role="group"
     aria-roledescription="slide"
-    aria-label="Solution Architecture"
-    hidden
-  >
-    <div class="slide-inner slide-diagram">
-      <div class="slide-head">
-        <p class="brand-line">VK AI LABS · E2E ENGINEERING PLATFORM</p>
-        <p class="eyebrow">01 · SOLUTION ARCHITECTURE</p>
-        <h2 class="headline">Two Clouds. One System. Zero Shared Database.</h2>
-      </div>
-      <figure class="diagram-card" data-zoomable>
-        <img
-          src="assets/vkai-insurance-solution-architecture-v2.drawio.png"
-          alt="Solution architecture diagram: a client-facing application deployed on Google Cloud Platform and a provider-facing application deployed on Microsoft Azure, each with its own isolated PostgreSQL database and no shared data store, connected only through defined API boundaries."
-          width="1642"
-          height="1175"
-        />
-        <figcaption class="zoom-hint">Click to zoom</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <!-- ============ SLIDE 3 — AI ORCHESTRATION ============ -->
-  <section
-    class="slide"
-    id="slide-3"
-    data-index="2"
-    role="group"
-    aria-roledescription="slide"
     aria-label="Multi-Agent Orchestration"
     hidden
   >
     <div class="slide-inner slide-diagram">
-      <div class="slide-head">
-        <p class="brand-line">VK AI LABS · E2E ENGINEERING PLATFORM</p>
-        <p class="eyebrow">02 · MULTI-AGENT ORCHESTRATION</p>
-        <h2 class="headline">
-          One Master Agent. Seven Subagents.<br class="br-desktop" />
-          One Human Action. Zero Merge Conflicts.
-        </h2>
+      <div class="slide-copy">
+        <div class="slide-head">
+          <p class="brand-line">VK AI LABS · E2E ENGINEERING PLATFORM</p>
+          <p class="eyebrow">01 · MULTI-AGENT ORCHESTRATION</p>
+          <h2 class="headline">
+            One Master Agent. Seven Subagents. One Human Action. Zero Merge Conflicts.
+          </h2>
+        </div>
       </div>
       <figure class="diagram-card" data-zoomable>
         <img
@@ -144,21 +117,117 @@
     </div>
   </section>
 
-  <!-- ============ SLIDE 4 — SYSTEM FLOW + LINKS ============ -->
+  <!-- ============ SLIDE 3 — SOLUTION ARCHITECTURE ============ -->
+  <section
+    class="slide"
+    id="slide-3"
+    data-index="2"
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Solution Architecture"
+    hidden
+  >
+    <div class="slide-inner slide-diagram">
+      <div class="slide-copy">
+        <div class="slide-head">
+          <p class="brand-line">VK AI LABS · E2E ENGINEERING PLATFORM</p>
+          <p class="eyebrow">02 · SOLUTION ARCHITECTURE</p>
+          <h2 class="headline">Two Clouds. One System. Zero Shared Database.</h2>
+        </div>
+      </div>
+      <figure class="diagram-card" data-zoomable>
+        <img
+          src="assets/vkai-insurance-solution-architecture-v2.drawio.png"
+          alt="Solution architecture diagram: a client-facing application deployed on Google Cloud Platform and a provider-facing application deployed on Microsoft Azure, each with its own isolated PostgreSQL database and no shared data store, connected only through defined API boundaries."
+          width="1642"
+          height="1175"
+        />
+        <figcaption class="zoom-hint">Click to zoom</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 4 — TEST AUTOMATION FRAMEWORK ============ -->
   <section
     class="slide"
     id="slide-4"
     data-index="3"
     role="group"
     aria-roledescription="slide"
+    aria-label="Test Automation Framework"
+    hidden
+  >
+    <div class="slide-inner slide-diagram">
+      <div class="slide-copy">
+        <div class="slide-head">
+          <p class="brand-line">VK AI LABS · E2E ENGINEERING PLATFORM</p>
+          <p class="eyebrow">03 · TEST AUTOMATION FRAMEWORK</p>
+          <h2 class="headline">
+            One Feature File. Every Browser Path. Green Before It Ships.
+          </h2>
+        </div>
+      </div>
+      <figure class="diagram-bare" data-zoomable>
+        <img
+          src="assets/vkai-insurance-test-automation-framework-v2.drawio.png"
+          alt="Test automation framework architecture: five stages moving left to right — configuration and credential setup, page-object and step support, BDD test-runner setup, execution engine (local and CI), and ExtentReports reporting — built on a Selenium 4, Cucumber-JVM, TestNG and Maven stack with a Page Object Model, Gherkin feature files, headless-Chrome GitHub Actions execution, and screenshot-on-failure reporting."
+          width="1520"
+          height="770"
+        />
+        <figcaption class="zoom-hint">Click to zoom</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 5 — SYSTEM FLOW + LINKS ============ -->
+  <section
+    class="slide"
+    id="slide-5"
+    data-index="4"
+    role="group"
+    aria-roledescription="slide"
     aria-label="Verified in Production"
     hidden
   >
     <div class="slide-inner slide-flow">
-      <div class="slide-head">
-        <p class="brand-line">VK AI LABS · E2E ENGINEERING PLATFORM</p>
-        <p class="eyebrow">03 · VERIFIED IN PRODUCTION</p>
-        <h2 class="headline">From Click to Claim — Verified Live in Production.</h2>
+      <div class="slide-copy">
+        <div class="slide-head">
+          <p class="brand-line">VK AI LABS · E2E ENGINEERING PLATFORM</p>
+          <p class="eyebrow">04 · VERIFIED IN PRODUCTION</p>
+          <h2 class="headline">From Click to Claim — Verified Live in Production.</h2>
+        </div>
+
+        <div class="cta-block">
+          <h3 class="cta-title">Try It Yourself</h3>
+          <div class="link-boxes">
+            <a
+              class="link-box"
+              href="https://vkai-insurance-client.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="link-box-arrow" aria-hidden="true">→</span>
+              <span class="link-box-title">Client Portal</span>
+              <span class="link-box-desc">
+                Buy a policy, pay premiums, file and track claims — as a customer.
+              </span>
+              <span class="link-box-ext" aria-hidden="true">Opens in new tab ↗</span>
+            </a>
+            <a
+              class="link-box"
+              href="https://vkai-insurance-provider.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="link-box-arrow" aria-hidden="true">→</span>
+              <span class="link-box-title">Provider Portal</span>
+              <span class="link-box-desc">
+                Review enrollments, approve claims, manage the catalog — as an ops reviewer.
+              </span>
+              <span class="link-box-ext" aria-hidden="true">Opens in new tab ↗</span>
+            </a>
+          </div>
+        </div>
       </div>
 
       <figure class="diagram-bare" data-zoomable>
@@ -170,53 +239,22 @@
         />
         <figcaption class="zoom-hint">Click to zoom</figcaption>
       </figure>
-
-      <div class="cta-block">
-        <h3 class="cta-title">Try It Yourself</h3>
-        <div class="link-boxes">
-          <a
-            class="link-box"
-            href="https://vkai-insurance-client.vercel.app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="link-box-arrow" aria-hidden="true">→</span>
-            <span class="link-box-title">Client Portal</span>
-            <span class="link-box-desc">
-              Buy a policy, pay premiums, file and track claims — as a customer.
-            </span>
-            <span class="link-box-ext" aria-hidden="true">Opens in new tab ↗</span>
-          </a>
-          <a
-            class="link-box"
-            href="https://vkai-insurance-provider.vercel.app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="link-box-arrow" aria-hidden="true">→</span>
-            <span class="link-box-title">Provider Portal</span>
-            <span class="link-box-desc">
-              Review enrollments, approve claims, manage the catalog — as an ops reviewer.
-            </span>
-            <span class="link-box-ext" aria-hidden="true">Opens in new tab ↗</span>
-          </a>
-        </div>
-      </div>
     </div>
   </section>
 </main>
 
 <!-- ============ PAGE CHROME: NAV ============ -->
-<button class="next-btn" id="next-btn" type="button" aria-label="Go to Architecture slide">
-  <span class="next-btn-label" id="next-btn-label">Architecture</span>
+<button class="next-btn" id="next-btn" type="button" aria-label="Go to AI Orchestration slide">
+  <span class="next-btn-label" id="next-btn-label">AI Orchestration</span>
   <span class="next-btn-arrow" aria-hidden="true">→</span>
 </button>
 
 <nav class="dots" id="dots" aria-label="Slide navigation">
   <button class="dot is-active" type="button" data-goto="0" aria-label="Go to slide 1: Intro" aria-current="true"></button>
-  <button class="dot" type="button" data-goto="1" aria-label="Go to slide 2: Solution Architecture"></button>
-  <button class="dot" type="button" data-goto="2" aria-label="Go to slide 3: Multi-Agent Orchestration"></button>
-  <button class="dot" type="button" data-goto="3" aria-label="Go to slide 4: Verified in Production"></button>
+  <button class="dot" type="button" data-goto="1" aria-label="Go to slide 2: Multi-Agent Orchestration"></button>
+  <button class="dot" type="button" data-goto="2" aria-label="Go to slide 3: Solution Architecture"></button>
+  <button class="dot" type="button" data-goto="3" aria-label="Go to slide 4: Test Automation Framework"></button>
+  <button class="dot" type="button" data-goto="4" aria-label="Go to slide 5: Verified in Production"></button>
 </nav>
 
 <!-- ============ LIGHTBOX ============ -->
