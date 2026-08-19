@@ -43,6 +43,7 @@
     "Architecture",
     "Test Automation",
     "System Flow",
+    "RAG in Practice",
     null
   ];
 
@@ -123,6 +124,17 @@
       goTo(parseInt(dot.getAttribute("data-goto"), 10));
     });
   });
+
+  // Internal "jump to slide" buttons (e.g. the "Live RAG Demo" card on
+  // slide 5, styled like the external portal links but navigating within
+  // the deck instead of opening a new tab).
+  Array.prototype.slice
+    .call(document.querySelectorAll("[data-goto-slide]"))
+    .forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        goTo(parseInt(btn.getAttribute("data-goto-slide"), 10));
+      });
+    });
 
   /* ---------- Keyboard ---------- */
   document.addEventListener("keydown", function (e) {
@@ -528,5 +540,80 @@
     mo.observe(slides[0], { attributes: true, attributeFilter: ["class"] });
 
     start();
+  }
+
+  /* ============================================================
+     Slide 6 — RAG live demo
+     ============================================================ */
+  var ragForm = document.getElementById("rag-form");
+  if (ragForm) {
+    var ragInput = document.getElementById("rag-question");
+    var ragSubmit = document.getElementById("rag-submit");
+    var ragSubmitLabel = document.getElementById("rag-submit-label");
+    var ragResult = document.getElementById("rag-result");
+    var ragAnswer = document.getElementById("rag-answer");
+    var ragSources = document.getElementById("rag-sources");
+    var ragError = document.getElementById("rag-error");
+    var ragBusy = false;
+
+    function setLoading(loading) {
+      ragBusy = loading;
+      ragSubmit.disabled = loading;
+      ragSubmit.classList.toggle("is-loading", loading);
+      ragSubmitLabel.textContent = loading ? "Thinking…" : "Ask";
+    }
+
+    function renderResult(data) {
+      ragAnswer.textContent = data.answer || "";
+      ragSources.innerHTML = "";
+      (data.sources || []).forEach(function (s) {
+        var chip = document.createElement("span");
+        chip.className = "rag-source-chip";
+        chip.textContent = s;
+        ragSources.appendChild(chip);
+      });
+      ragResult.hidden = false;
+    }
+
+    function renderError(message) {
+      ragError.textContent = message;
+      ragError.hidden = false;
+    }
+
+    ragForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (ragBusy) return;
+
+      var question = ragInput.value.trim();
+      if (!question) return;
+
+      ragError.hidden = true;
+      ragResult.hidden = true;
+      setLoading(true);
+
+      fetch("/api/rag-query", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: question })
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error("Request failed (" + res.status + ")");
+          return res.json();
+        })
+        .then(function (data) {
+          setLoading(false);
+          if (data.error) {
+            renderError(data.error);
+          } else {
+            renderResult(data);
+          }
+        })
+        .catch(function (err) {
+          setLoading(false);
+          renderError(
+            "Couldn't reach the RAG demo right now. Please try again in a moment."
+          );
+        });
+    });
   }
 })();
