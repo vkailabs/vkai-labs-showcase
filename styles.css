@@ -515,6 +515,17 @@ body.user-is-tabbing [data-zoomable]:focus .zoom-hint {
   overflow: hidden;
   transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
 }
+/* .link-box is also used on a <button> (internal "jump to slide" cards, e.g.
+   Live RAG Demo) alongside its usual <a> (external portal links). Reset the
+   button-specific UA defaults so it matches the anchor styling exactly. */
+button.link-box {
+  width: 100%;
+  text-align: left;
+  font-family: var(--sans);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
 .link-box::before {
   content: "";
   position: absolute;
