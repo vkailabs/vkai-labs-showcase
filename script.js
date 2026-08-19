@@ -552,7 +552,6 @@
     var ragSubmitLabel = document.getElementById("rag-submit-label");
     var ragResult = document.getElementById("rag-result");
     var ragAnswer = document.getElementById("rag-answer");
-    var ragSources = document.getElementById("rag-sources");
     var ragError = document.getElementById("rag-error");
     var ragBusy = false;
 
@@ -565,13 +564,6 @@
 
     function renderResult(data) {
       ragAnswer.textContent = data.answer || "";
-      ragSources.innerHTML = "";
-      (data.sources || []).forEach(function (s) {
-        var chip = document.createElement("span");
-        chip.className = "rag-source-chip";
-        chip.textContent = s;
-        ragSources.appendChild(chip);
-      });
       ragResult.hidden = false;
     }
 
