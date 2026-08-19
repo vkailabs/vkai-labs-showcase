@@ -72,6 +72,17 @@ platform's docs, mirrored in here for the live function to read).
   half-finished feature.
 - **Model:** `claude-sonnet-4-6`, `max_tokens: 400`, so answers are intentionally short
   (2-4 sentences per the system prompt).
+- **Retrieval is BM25-only here, by deliberate decision — NOT a gap to fill in later.**
+  The local POC (`~/vkai-labs/insurance/ai/`) also supports hybrid retrieval (BM25 + dense
+  embeddings via `sentence-transformers`, auto-enabled once `embeddings.json` exists) and this
+  was confirmed to meaningfully improve retrieval quality on real failing queries there. It was
+  deliberately NOT brought to this live demo: doing so would require either (a) a real npm
+  dependency to run a transformer model in the Vercel function, breaking this repo's
+  zero-dependency rule above, or (b) a hosted embeddings API (e.g. Voyage AI) — a new external
+  account/API key/secret for a demo-scale project. Both were considered and explicitly declined
+  in favor of keeping this repo simple. If retrieval quality on the live demo ever becomes a
+  real problem (not just a known limitation), Voyage AI was the preferred path if revisited —
+  don't reach for a JS-bundled model first.
 
 ## Known bug patterns — check for these first if something seems "not clickable"
 1. **Pointer-events trap**: an inactive slide or overlay element still in the DOM with
