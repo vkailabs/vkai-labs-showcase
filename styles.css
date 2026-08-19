@@ -241,17 +241,36 @@ body.user-is-tabbing .lightbox-close:focus {
 }
 
 /* ---------- Slide 1 ---------- */
+/* Centred vertical stack: brand line → headline → subhead → tech boxes →
+   full-width diagram → concept word-cloud footer. */
 .slide-intro {
-  align-items: stretch;
-  text-align: left;
-  max-width: 1440px;
-  gap: clamp(14px, 3vh, 32px);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: none;
+  gap: clamp(8px, 1.6vh, 18px);
 }
+.slide-intro .eyebrow {
+  margin-bottom: 4px;
+}
+/* Headline: one line, stretched end-to-end. `nowrap` + vw-scaled size makes
+   it auto-fit the page width and shrink on narrow viewports rather than wrap. */
 .slide-intro .headline-xl {
+  white-space: nowrap;
+  font-size: clamp(15px, 3.15vw, 46px);
+  line-height: 1.1;
   background: linear-gradient(180deg, #ffffff 30%, #b9c6d3 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+/* Subhead: also one line, smaller, centred. Sized so the full sentence fits
+   the page width without clipping (it's ~160 chars). */
+.slide-intro .subhead {
+  white-space: nowrap;
+  margin: 2px auto 0;
+  max-width: none;
+  font-size: clamp(8px, 1.05vw, 14px);
 }
 
 /* Full-bleed orchestration-flow banner, now BELOW the copy (per the top-to-
@@ -278,7 +297,10 @@ body.user-is-tabbing .lightbox-close:focus {
   margin-left: 50%;
   transform: translateX(-50%);
   height: auto;
-  max-height: clamp(150px, 30vh, 340px);
+  /* Bigger, edge-to-edge. The image is 2826×747 (~3.78:1), so at 100vw its
+     natural height is ~26vw — this cap lets it render as large as the width
+     allows on wide screens. */
+  max-height: clamp(180px, 42vh, 440px);
   object-fit: contain;
   display: block;
 }
@@ -306,8 +328,9 @@ body.user-is-tabbing .lightbox-close:focus {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 10px;
-  margin: 40px 0 0;
+  justify-content: center;
+  gap: 8px 10px;
+  margin: 4px 0 0;
   padding: 0;
 }
 .tech-row li {
@@ -321,20 +344,21 @@ body.user-is-tabbing .lightbox-close:focus {
   border-radius: 999px;
 }
 
-/* ---------- Slide 1 concept word-cloud (right column) ---------- */
-/* Wordle-style cloud, but every term is horizontal and readable: a
-   baseline-aligned flex-wrap of mixed-size terms. Sizes scale with viewport
-   width (cqi-free clamps) so nothing overflows the right column. */
+/* ---------- Slide 1 concept word-cloud (footer, below the diagram) ---------- */
+/* A centred, full-width strip of concept terms that flows onto ~2 lines just
+   below the orchestration diagram. Baseline-aligned flex-wrap of mixed-size
+   terms; sizes scale with viewport width so it stays compact. */
 .wordcloud {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: center;
   align-content: center;
-  gap: clamp(3px, 0.5vh, 8px) clamp(7px, 0.8vw, 14px);
-  line-height: 1;
-  padding: clamp(6px, 1.4vw, 18px);
-  border-left: 1px solid var(--border);
+  gap: clamp(3px, 0.5vh, 7px) clamp(8px, 0.9vw, 15px);
+  line-height: 1.15;
+  padding: clamp(4px, 1vh, 10px) clamp(20px, 8vw, 140px) 0;
+  max-width: 1280px;
+  margin: 0 auto;
   min-width: 0;
 }
 .wordcloud span {
@@ -345,11 +369,11 @@ body.user-is-tabbing .lightbox-close:focus {
   display: inline-block;
 }
 /* Size tiers — deliberately compact (the AI keyword matrix is a supporting
-   accent, not the focus). Roughly two-thirds of the original scale. */
-.wc-xl { font-size: clamp(17px, 1.9vw, 27px); font-weight: 800; }
-.wc-lg { font-size: clamp(13px, 1.4vw, 20px); }
-.wc-md { font-size: clamp(11px, 1.05vw, 15px); }
-.wc-sm { font-size: clamp(10px, 0.85vw, 13px); font-weight: 600; }
+   footer accent, not the focus), sized so all terms flow onto ~2 lines. */
+.wc-xl { font-size: clamp(15px, 1.6vw, 20px); font-weight: 800; }
+.wc-lg { font-size: clamp(12px, 1.25vw, 17px); }
+.wc-md { font-size: clamp(11px, 1.05vw, 14px); }
+.wc-sm { font-size: clamp(10px, 0.85vw, 12px); font-weight: 600; }
 .wc-xs { font-size: clamp(9px, 0.75vw, 11px); font-weight: 600; }
 /* Colour tones — on-brand teal family + white + muted */
 .wc-white { color: var(--text); }
@@ -1220,16 +1244,15 @@ body.user-is-tabbing .rag-submit:focus {
   .rag-flow {
     grid-template-columns: 1fr;
   }
-  /* Stack the intro: copy first, word-cloud below; drop the divider */
-  .intro-grid {
-    grid-template-columns: 1fr;
-    gap: clamp(16px, 4vh, 28px);
+  /* Intro: the one-line headline/subhead would overflow a phone — let them
+     wrap here, and give the word-cloud footer room. */
+  .slide-intro .headline-xl,
+  .slide-intro .subhead {
+    white-space: normal;
   }
   .wordcloud {
-    border-left: 0;
-    border-top: 1px solid var(--border);
-    padding-top: clamp(12px, 3vh, 20px);
-    justify-content: flex-start;
+    padding-left: clamp(12px, 4vw, 40px);
+    padding-right: clamp(12px, 4vw, 40px);
   }
 }
 
