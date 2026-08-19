@@ -38,14 +38,7 @@
   var current = 0;
 
   // Label + aria for the Next button, per slide it will advance TO.
-  var NEXT_LABELS = [
-    "AI Orchestration",
-    "Architecture",
-    "Test Automation",
-    "System Flow",
-    "RAG in Practice",
-    null
-  ];
+  var NEXT_LABELS = ["The Platform", "RAG Demo", null];
 
   function updateChrome() {
     dots.forEach(function (dot, i) {
