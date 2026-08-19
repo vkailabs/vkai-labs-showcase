@@ -137,8 +137,24 @@
     });
 
   /* ---------- Keyboard ---------- */
+  // Deck shortcuts (arrows, Page Up/Down, Home/End) should not fire while
+  // the person is actually typing somewhere — e.g. the RAG demo's question
+  // input. Without this, ArrowLeft/ArrowRight inside that field navigated
+  // slides instead of moving the text cursor.
+  function isTypingTarget(el) {
+    if (!el) return false;
+    var tag = el.tagName;
+    return (
+      tag === "INPUT" ||
+      tag === "TEXTAREA" ||
+      tag === "SELECT" ||
+      el.isContentEditable
+    );
+  }
+
   document.addEventListener("keydown", function (e) {
     if (lightboxOpen) return; // lightbox handles its own keys
+    if (isTypingTarget(document.activeElement)) return; // let the field handle its own keys
     if (e.key === "ArrowRight" || e.key === "PageDown") {
       e.preventDefault();
       next();
