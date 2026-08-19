@@ -253,11 +253,11 @@ body.user-is-tabbing .lightbox-close:focus {
 .slide-intro .eyebrow {
   margin-bottom: 4px;
 }
-/* Headline: one line, stretched end-to-end. `nowrap` + vw-scaled size makes
-   it auto-fit the page width and shrink on narrow viewports rather than wrap. */
+/* Headline: one line (nowrap), centred. Sized to match the Slide 2 headline
+   exactly — `.headline:not(.headline-xl)` is clamp(15px, 2vw, 26px). */
 .slide-intro .headline-xl {
   white-space: nowrap;
-  font-size: clamp(15px, 3.15vw, 46px);
+  font-size: clamp(15px, 2vw, 26px);
   line-height: 1.1;
   background: linear-gradient(180deg, #ffffff 30%, #b9c6d3 100%);
   -webkit-background-clip: text;
