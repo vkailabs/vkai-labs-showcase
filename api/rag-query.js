@@ -23,7 +23,10 @@ const path = require("path");
 
 const CHUNKS_PATH = path.join(__dirname, "data", "chunks.json");
 const MODEL = "claude-sonnet-4-6";
-const TOP_K = 4;
+const TOP_K = 6; // was 4 — raised after a real retrieval miss (a correct
+// answer existed in the corpus but ranked outside the top 4 for that
+// question's exact wording). More candidates = better recall at a small
+// extra cost per question (~6 chunks of context instead of 4).
 
 // Loaded once per cold start, reused across warm invocations.
 let CHUNKS = null;
