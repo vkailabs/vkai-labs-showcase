@@ -272,31 +272,69 @@
         <h2 class="headline">Grounded Answers. Real Docs. No Guessing.</h2>
       </div>
 
-      <ol class="rag-pipeline" aria-label="RAG pipeline stages">
-        <li class="rag-step">
-          <span class="rag-step-num">1</span>
-          <span class="rag-step-title">Chunk</span>
-          <span class="rag-step-desc">209 markdown sections split by heading</span>
-        </li>
-        <li class="rag-arrow" aria-hidden="true">→</li>
-        <li class="rag-step">
-          <span class="rag-step-num">2</span>
-          <span class="rag-step-title">Index</span>
-          <span class="rag-step-desc">BM25 sparse vectors, term-weighted</span>
-        </li>
-        <li class="rag-arrow" aria-hidden="true">→</li>
-        <li class="rag-step">
-          <span class="rag-step-num">3</span>
-          <span class="rag-step-title">Retrieve</span>
-          <span class="rag-step-desc">Top-k chunks ranked by relevance</span>
-        </li>
-        <li class="rag-arrow" aria-hidden="true">→</li>
-        <li class="rag-step">
-          <span class="rag-step-num">4</span>
-          <span class="rag-step-title">Generate</span>
-          <span class="rag-step-desc">Claude answers from retrieved context</span>
-        </li>
-      </ol>
+      <div class="rag-flow" aria-label="RAG pipeline: Chunk &amp; Index, Retrieve, Augment, Generate">
+        <div class="rag-flow-stage">
+          <div class="rag-flow-head">
+            <span class="rag-flow-num">1</span>
+            <span class="rag-flow-title">Chunk &amp; Index</span>
+            <span class="rag-flow-desc">Done once, offline — not per question</span>
+          </div>
+          <div class="rag-flow-chain">
+            <span class="rag-chip">352 real doc sections</span>
+            <span class="rag-chip-arrow" aria-hidden="true">→</span>
+            <span class="rag-chip">Split by heading (chunked)</span>
+            <span class="rag-chip-arrow" aria-hidden="true">→</span>
+            <span class="rag-chip rag-chip-accent">BM25 sparse index — flat JSON, no vector DB</span>
+          </div>
+        </div>
+
+        <div class="rag-flow-stage">
+          <div class="rag-flow-head">
+            <span class="rag-flow-num">2</span>
+            <span class="rag-flow-title">Retrieve</span>
+            <span class="rag-flow-desc">Runs live, on every question</span>
+          </div>
+          <div class="rag-flow-chain">
+            <span class="rag-chip">User question</span>
+            <span class="rag-chip-arrow" aria-hidden="true">→</span>
+            <span class="rag-chip">Tokenize (stopword-filtered)</span>
+            <span class="rag-chip-arrow" aria-hidden="true">→</span>
+            <span class="rag-chip">BM25-scored against the index</span>
+            <span class="rag-chip-arrow" aria-hidden="true">→</span>
+            <span class="rag-chip">Top-6 relevant chunks</span>
+          </div>
+        </div>
+
+        <div class="rag-flow-stage">
+          <div class="rag-flow-head">
+            <span class="rag-flow-num">3</span>
+            <span class="rag-flow-title">Augment</span>
+            <span class="rag-flow-desc">Build a richer prompt from what was retrieved</span>
+          </div>
+          <div class="rag-flow-chain">
+            <span class="rag-chip">Top-6 chunks</span>
+            <span class="rag-chip-arrow" aria-hidden="true">+</span>
+            <span class="rag-chip">User question</span>
+            <span class="rag-chip-arrow" aria-hidden="true">→</span>
+            <span class="rag-chip">Augmented prompt (numbered context blocks)</span>
+          </div>
+        </div>
+
+        <div class="rag-flow-stage">
+          <div class="rag-flow-head">
+            <span class="rag-flow-num">4</span>
+            <span class="rag-flow-title">Generate</span>
+            <span class="rag-flow-desc">Claude answers only from the retrieved context</span>
+          </div>
+          <div class="rag-flow-chain">
+            <span class="rag-chip">Augmented prompt</span>
+            <span class="rag-chip-arrow" aria-hidden="true">→</span>
+            <span class="rag-chip rag-chip-accent">Claude Sonnet 4.6</span>
+            <span class="rag-chip-arrow" aria-hidden="true">→</span>
+            <span class="rag-chip">Answer</span>
+          </div>
+        </div>
+      </div>
 
       <div class="rag-demo">
         <form class="rag-form" id="rag-form">
@@ -326,7 +364,7 @@
 
         <p class="rag-note">
           Answers are generated only from this project's own documentation —
-          209 real chunks, retrieved live, cited by source file and section.
+          352 real chunks, retrieved live via BM25 (no vector DB).
         </p>
       </div>
     </div>
