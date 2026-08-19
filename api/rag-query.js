@@ -128,6 +128,13 @@ async function synthesize(question, results) {
     "If the context doesn't contain the answer, say so plainly.",
     "Keep the answer to 2-4 sentences, conversational, no markdown headers.",
     "",
+    "After your answer, on its own final line, output exactly:",
+    "SOURCES_USED: <comma-separated numbers>",
+    "listing ONLY the bracketed context numbers whose content you actually",
+    "relied on to write the answer — not every number you were given, and",
+    "not numbers you glanced at but didn't use. If none were usable, write",
+    "SOURCES_USED: none. Do not explain this line, output it exactly once.",
+    "",
     "CONTEXT:",
     context,
   ].join("\n");
@@ -154,7 +161,32 @@ async function synthesize(question, results) {
 
   const data = await resp.json();
   const textBlock = (data.content || []).find((b) => b.type === "text");
-  return textBlock ? textBlock.text : "";
+  const rawText = textBlock ? textBlock.text : "";
+
+  // Pull the SOURCES_USED line off the end and parse it. If the model
+  // didn't follow the format for some reason, fall back to "used
+  // everything retrieved" rather than showing zero sources — a slightly
+  // noisier citation list is a smaller problem than silently dropping all
+  // attribution.
+  const match = rawText.match(/SOURCES_USED:\s*(.+)\s*$/i);
+  let usedIndices = results.map((_, i) => i + 1); // fallback: all of them
+  let answer = rawText;
+
+  if (match) {
+    answer = rawText.slice(0, match.index).trim();
+    const listStr = match[1].trim().toLowerCase();
+    if (listStr !== "none") {
+      const parsed = listStr
+        .split(",")
+        .map((s) => parseInt(s.trim(), 10))
+        .filter((n) => Number.isInteger(n) && n >= 1 && n <= results.length);
+      if (parsed.length > 0) usedIndices = parsed;
+    } else {
+      usedIndices = [];
+    }
+  }
+
+  return { answer, usedIndices };
 }
 
 module.exports = async function handler(req, res) {
@@ -198,10 +230,13 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    const answer = await synthesize(question, results);
+    const { answer, usedIndices } = await synthesize(question, results);
     const sources = [
       ...new Set(
-        results.map((r) => `${r.chunk.source} · ${r.chunk.heading}`)
+        usedIndices
+          .map((i) => results[i - 1])
+          .filter(Boolean)
+          .map((r) => `${r.chunk.source} · ${r.chunk.heading}`)
       ),
     ];
 
