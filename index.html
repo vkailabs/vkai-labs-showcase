@@ -241,6 +241,84 @@
       </figure>
     </div>
   </section>
+
+  <!-- ============ SLIDE 6 — RAG IN PRACTICE ============ -->
+  <section
+    class="slide"
+    id="slide-6"
+    data-index="5"
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Retrieval-Augmented Generation"
+    hidden
+  >
+    <div class="slide-inner slide-rag">
+      <div class="slide-head slide-head-rag">
+        <p class="brand-line">VK AI LABS · E2E ENGINEERING PLATFORM</p>
+        <p class="eyebrow">05 · RETRIEVAL-AUGMENTED GENERATION</p>
+        <h2 class="headline">Grounded Answers. Real Docs. No Guessing.</h2>
+      </div>
+
+      <ol class="rag-pipeline" aria-label="RAG pipeline stages">
+        <li class="rag-step">
+          <span class="rag-step-num">1</span>
+          <span class="rag-step-title">Chunk</span>
+          <span class="rag-step-desc">209 markdown sections split by heading</span>
+        </li>
+        <li class="rag-arrow" aria-hidden="true">→</li>
+        <li class="rag-step">
+          <span class="rag-step-num">2</span>
+          <span class="rag-step-title">Index</span>
+          <span class="rag-step-desc">BM25 sparse vectors, term-weighted</span>
+        </li>
+        <li class="rag-arrow" aria-hidden="true">→</li>
+        <li class="rag-step">
+          <span class="rag-step-num">3</span>
+          <span class="rag-step-title">Retrieve</span>
+          <span class="rag-step-desc">Top-k chunks ranked by relevance</span>
+        </li>
+        <li class="rag-arrow" aria-hidden="true">→</li>
+        <li class="rag-step">
+          <span class="rag-step-num">4</span>
+          <span class="rag-step-title">Generate</span>
+          <span class="rag-step-desc">Claude answers from retrieved context</span>
+        </li>
+      </ol>
+
+      <div class="rag-demo">
+        <form class="rag-form" id="rag-form">
+          <label class="rag-label" for="rag-question">
+            Ask a real question about this platform's design
+          </label>
+          <div class="rag-input-row">
+            <input
+              class="rag-input"
+              id="rag-question"
+              type="text"
+              placeholder="e.g. Why does the provider database use a different port?"
+              autocomplete="off"
+              maxlength="300"
+            />
+            <button class="rag-submit" id="rag-submit" type="submit">
+              <span id="rag-submit-label">Ask</span>
+            </button>
+          </div>
+        </form>
+
+        <div class="rag-result" id="rag-result" hidden>
+          <p class="rag-answer" id="rag-answer"></p>
+          <div class="rag-sources" id="rag-sources" aria-label="Sources"></div>
+        </div>
+
+        <p class="rag-error" id="rag-error" hidden></p>
+
+        <p class="rag-note">
+          Answers are generated only from this project's own documentation —
+          209 real chunks, retrieved live, cited by source file and section.
+        </p>
+      </div>
+    </div>
+  </section>
 </main>
 
 <!-- ============ PAGE CHROME: NAV ============ -->
@@ -255,6 +333,7 @@
   <button class="dot" type="button" data-goto="2" aria-label="Go to slide 3: Solution Architecture"></button>
   <button class="dot" type="button" data-goto="3" aria-label="Go to slide 4: Test Automation Framework"></button>
   <button class="dot" type="button" data-goto="4" aria-label="Go to slide 5: Verified in Production"></button>
+  <button class="dot" type="button" data-goto="5" aria-label="Go to slide 6: Retrieval-Augmented Generation"></button>
 </nav>
 
 <!-- ============ LIGHTBOX ============ -->
