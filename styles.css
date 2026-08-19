@@ -570,6 +570,202 @@ body.user-is-tabbing .link-box:focus .link-box-arrow {
   color: var(--text-dim);
 }
 
+/* ---------- Slide 6 — RAG in Practice ---------- */
+.slide-rag {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(20px, 3vh, 34px);
+  max-width: 1100px;
+  text-align: left;
+}
+.slide-head-rag {
+  flex: 0 0 auto;
+}
+
+/* Pipeline strip */
+.rag-pipeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+  gap: clamp(6px, 1.2vw, 14px);
+  flex-wrap: wrap;
+}
+.rag-step {
+  flex: 1 1 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: linear-gradient(180deg, var(--card), var(--card-2));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(12px, 1.6vw, 18px) clamp(14px, 1.8vw, 18px);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+.rag-step:hover {
+  border-color: rgba(20, 184, 166, 0.4);
+  box-shadow: 0 0 30px -14px rgba(20, 184, 166, 0.5);
+}
+.rag-step-num {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--accent-glow);
+  opacity: 0.85;
+}
+.rag-step-title {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(15px, 1.7vw, 18px);
+  color: var(--text);
+}
+.rag-step-desc {
+  font-size: clamp(12px, 1.3vw, 13px);
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+.rag-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 18px;
+  flex: 0 0 auto;
+  padding: 0 2px;
+}
+
+/* Live demo panel */
+.rag-demo {
+  background: linear-gradient(180deg, var(--card), var(--card-2));
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: clamp(18px, 2.4vw, 28px);
+  box-shadow:
+    0 0 0 1px rgba(20, 184, 166, 0.05),
+    0 24px 60px -24px rgba(0, 0, 0, 0.7);
+}
+.rag-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  margin: 0 0 10px;
+}
+.rag-input-row {
+  display: flex;
+  gap: 10px;
+}
+.rag-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--text);
+}
+.rag-input::placeholder {
+  color: var(--text-dim);
+}
+.rag-input:focus {
+  outline: none;
+  border-color: var(--accent-glow);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.18);
+}
+.rag-submit {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  color: #04110f;
+  background: var(--accent-glow);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0 22px;
+  cursor: pointer;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+.rag-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+.rag-submit:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+body.user-is-tabbing .rag-input:focus {
+  outline: none; /* box-shadow above already provides the ring */
+}
+body.user-is-tabbing .rag-submit:focus {
+  outline: 2px solid var(--bg);
+  outline-offset: -4px;
+}
+
+.rag-result {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+.rag-answer {
+  margin: 0 0 12px;
+  font-size: clamp(14px, 1.6vw, 16px);
+  line-height: 1.55;
+  color: var(--text);
+}
+.rag-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.rag-source-chip {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--accent-glow);
+  background: rgba(15, 110, 99, 0.12);
+  border: 1px solid rgba(20, 184, 166, 0.35);
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+
+.rag-error {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: #e6a35c;
+}
+
+.rag-note {
+  margin: 16px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+/* Small skeleton pulse while waiting on the API */
+.rag-submit.is-loading #rag-submit-label {
+  opacity: 0.7;
+}
+
+@media (max-width: 760px) {
+  .rag-pipeline {
+    flex-direction: column;
+  }
+  .rag-arrow {
+    transform: rotate(90deg);
+    padding: 2px 0;
+  }
+  .rag-input-row {
+    flex-direction: column;
+  }
+  .rag-submit {
+    padding: 12px 22px;
+  }
+}
+
 /* ---------- Next button ---------- */
 .next-btn {
   position: fixed;
