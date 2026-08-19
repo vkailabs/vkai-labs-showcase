@@ -214,12 +214,14 @@ body.user-is-tabbing .lightbox-close:focus {
   color: var(--text);
 }
 
+/* Headline sizes deliberately kept at ~50% of the original scale (was
+   30–58px / 28–48px). Tune these two clamps together if they read too small. */
 .headline-xl {
-  font-size: clamp(30px, 4.6vw, 58px);
+  font-size: clamp(16px, 2.3vw, 30px);
 }
 
 .headline:not(.headline-xl) {
-  font-size: clamp(28px, 4vw, 48px);
+  font-size: clamp(15px, 2vw, 26px);
 }
 
 .slide-head .headline {
@@ -252,21 +254,33 @@ body.user-is-tabbing .lightbox-close:focus {
   -webkit-text-fill-color: transparent;
 }
 
-/* Full-bleed orchestration-flow banner across the top of the landing page.
-   The image is dark-themed, so it sits directly on the page background (no
-   card frame), consistent with the System Flow diagram. 100vw breakout +
-   translateX(-50%) centres it edge-to-edge regardless of the slide padding;
-   body has overflow:hidden so the breakout never produces a scrollbar. */
+/* Full-bleed orchestration-flow banner, now BELOW the copy (per the top-to-
+   bottom order: brand line → headline → subhead → diagram). The image is
+   dark-themed, so it sits directly on the page background (no card frame),
+   consistent with the System Flow diagram. 100vw breakout + translateX(-50%)
+   centres it edge-to-edge regardless of the slide padding; body has
+   overflow:hidden so the breakout never produces a scrollbar. Wrapped in a
+   zoomable figure so it opens full-screen in the lightbox like every other
+   diagram. */
+.intro-banner-figure {
+  position: relative;
+  margin: 0;
+  flex: 0 0 auto;
+  cursor: zoom-in;
+  transition: filter 200ms ease;
+}
+.intro-banner-figure:hover {
+  filter: drop-shadow(0 0 26px rgba(20, 184, 166, 0.28));
+}
 .intro-banner {
   width: 100vw;
   max-width: 100vw;
   margin-left: 50%;
   transform: translateX(-50%);
   height: auto;
-  max-height: clamp(140px, 26vh, 300px);
+  max-height: clamp(150px, 30vh, 340px);
   object-fit: contain;
   display: block;
-  flex: 0 0 auto;
 }
 
 /* Copy on the left, concept word-cloud pinned to the extreme right. */
@@ -330,12 +344,13 @@ body.user-is-tabbing .lightbox-close:focus {
   white-space: nowrap;
   display: inline-block;
 }
-/* Size tiers */
-.wc-xl { font-size: clamp(26px, 2.9vw, 42px); font-weight: 800; }
-.wc-lg { font-size: clamp(19px, 2.1vw, 30px); }
-.wc-md { font-size: clamp(15px, 1.55vw, 22px); }
-.wc-sm { font-size: clamp(12px, 1.15vw, 16px); font-weight: 600; }
-.wc-xs { font-size: clamp(11px, 1vw, 14px); font-weight: 600; }
+/* Size tiers — deliberately compact (the AI keyword matrix is a supporting
+   accent, not the focus). Roughly two-thirds of the original scale. */
+.wc-xl { font-size: clamp(17px, 1.9vw, 27px); font-weight: 800; }
+.wc-lg { font-size: clamp(13px, 1.4vw, 20px); }
+.wc-md { font-size: clamp(11px, 1.05vw, 15px); }
+.wc-sm { font-size: clamp(10px, 0.85vw, 13px); font-weight: 600; }
+.wc-xs { font-size: clamp(9px, 0.75vw, 11px); font-weight: 600; }
 /* Colour tones — on-brand teal family + white + muted */
 .wc-white { color: var(--text); }
 .wc-teal  { color: var(--accent-glow); }
@@ -581,14 +596,170 @@ body.user-is-tabbing .link-box:focus .link-box-arrow {
   color: var(--text-dim);
 }
 
-/* ---------- Slide 6 — RAG in Practice ---------- */
+/* ---------- Slide 2 — Platform hub (Orchestration · Architecture · Test · Flow) ----------
+   A single overview slide: heading, then a 2×2 grid of clickable diagram
+   tiles (each opens full-screen in the shared lightbox), then two small
+   portal cards at the bottom. */
+.slide-hub {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(12px, 2vh, 22px);
+  max-width: 1440px;
+}
+.slide-hub .slide-head {
+  flex: 0 0 auto;
+}
+
+/* The four section names in place of a single numbered eyebrow. */
+.eyebrow-multi {
+  color: var(--accent-glow);
+  opacity: 0.92;
+  font-size: clamp(9px, 0.95vw, 12px);
+  letter-spacing: 0.13em;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.hub-tiles {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: clamp(12px, 1.4vw, 20px);
+}
+.hub-tile {
+  position: relative;
+  margin: 0;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--card), var(--card-2));
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  cursor: zoom-in;
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+.hub-tile:hover,
+body.user-is-tabbing .hub-tile:focus {
+  border-color: rgba(20, 184, 166, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(20, 184, 166, 0.14),
+    0 18px 44px -20px rgba(0, 0, 0, 0.7),
+    0 0 60px -20px rgba(20, 184, 166, 0.4);
+  transform: translateY(-2px);
+}
+.hub-tile-img {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(8px, 1vw, 14px);
+}
+.hub-tile-img img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 6px;
+  display: block;
+}
+.hub-tile-cap {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: clamp(7px, 0.9vw, 11px) clamp(12px, 1.4vw, 16px);
+  border-top: 1px solid var(--border);
+  background: rgba(10, 14, 20, 0.5);
+}
+.hub-tile-title {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(13px, 1.4vw, 16px);
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.hub-tile-sub {
+  font-family: var(--mono);
+  font-size: clamp(9.5px, 1vw, 11.5px);
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+}
+/* "expand to full screen" affordance, revealed on hover/focus */
+.hub-tile::after {
+  content: "⤢";
+  position: absolute;
+  top: 9px;
+  right: 12px;
+  font-size: 15px;
+  color: var(--accent-glow);
+  opacity: 0;
+  transition: opacity 180ms ease;
+  pointer-events: none;
+}
+.hub-tile:hover::after,
+body.user-is-tabbing .hub-tile:focus::after {
+  opacity: 0.9;
+}
+
+/* Bottom "Try It Yourself" — label + two small portal cards */
+.hub-cta {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 18px);
+}
+.hub-cta-label {
+  flex: 0 0 auto;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(13px, 1.4vw, 16px);
+  color: var(--text);
+}
+.hub-links {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(10px, 1.2vw, 14px);
+}
+.link-box-sm {
+  padding: 9px 14px;
+}
+.link-box-sm .link-box-title {
+  font-size: clamp(13px, 1.3vw, 15px);
+  margin-bottom: 2px;
+}
+.link-box-sm .link-box-desc {
+  font-size: clamp(11px, 1.05vw, 12.5px);
+  line-height: 1.35;
+  max-width: none;
+}
+.link-box-sm .link-box-arrow {
+  top: 9px;
+  right: 12px;
+  font-size: 16px;
+}
+
+/* ---------- Slide 3 — RAG in Practice ---------- */
 .slide-rag {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(20px, 3vh, 34px);
-  max-width: 1100px;
+  gap: clamp(16px, 2.6vh, 30px);
+  max-width: 1180px;
   text-align: left;
+}
+.rag-body {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2.2vh, 24px);
+  min-height: 0;
 }
 .slide-head-rag {
   flex: 0 0 auto;
@@ -601,10 +772,11 @@ body.user-is-tabbing .link-box:focus .link-box-arrow {
    standard "R-A-G" framing while staying accurate to what's actually
    running live (BM25 + flat JSON, explicitly no vector DB — see rag-note
    below and CLAUDE.md for why no embeddings/vector DB are deployed here). */
+/* 2×2 grid of the four pipeline stages (was a single vertical stack). */
 .rag-flow {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(10px, 1.4vh, 16px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(10px, 1.2vw, 16px);
 }
 .rag-flow-stage {
   background: linear-gradient(180deg, var(--card), var(--card-2));
@@ -672,7 +844,8 @@ body.user-is-tabbing .link-box:focus .link-box-arrow {
   flex: 0 0 auto;
 }
 
-/* Live demo panel */
+/* Live demo panel — the interactive chatbot, deliberately the largest,
+   most prominent element on the slide. */
 .rag-demo {
   position: relative;
   background:
@@ -680,7 +853,7 @@ body.user-is-tabbing .link-box:focus .link-box-arrow {
     linear-gradient(180deg, var(--card), var(--card-2));
   border: 1px solid rgba(20, 184, 166, 0.4);
   border-radius: var(--radius-lg);
-  padding: clamp(18px, 2.4vw, 28px);
+  padding: clamp(22px, 3vw, 40px);
   box-shadow:
     0 0 0 1px rgba(20, 184, 166, 0.1),
     0 24px 60px -24px rgba(0, 0, 0, 0.7),
@@ -719,14 +892,14 @@ body.user-is-tabbing .link-box:focus .link-box-arrow {
 .rag-label {
   display: block;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: clamp(12px, 1.2vw, 13.5px);
   letter-spacing: 0.06em;
   color: var(--text-dim);
-  margin: 0 0 10px;
+  margin: 0 0 12px;
 }
 .rag-input-row {
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 .rag-input {
   flex: 1 1 auto;
@@ -734,9 +907,9 @@ body.user-is-tabbing .link-box:focus .link-box-arrow {
   background: var(--bg-2);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 12px 14px;
+  padding: 15px 18px;
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: 16px;
   color: var(--text);
 }
 .rag-input::placeholder {
@@ -750,13 +923,13 @@ body.user-is-tabbing .link-box:focus .link-box-arrow {
 .rag-submit {
   flex: 0 0 auto;
   font-family: var(--mono);
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.03em;
   color: #04110f;
   background: var(--accent-glow);
   border: none;
   border-radius: var(--radius-sm);
-  padding: 0 22px;
+  padding: 0 30px;
   cursor: pointer;
   transition: opacity 180ms ease, transform 180ms ease;
 }
@@ -1033,6 +1206,19 @@ body.user-is-tabbing .rag-submit:focus {
   }
   .slide-flow .link-boxes {
     grid-template-columns: 1fr 1fr;
+  }
+  /* Hub: keep the 2×2 tile grid but let the CTA + portal cards stack. */
+  .hub-cta {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .hub-links {
+    grid-template-columns: 1fr;
+  }
+  /* RAG pipeline back to a single column on narrow screens (the chips are wide). */
+  .rag-flow {
+    grid-template-columns: 1fr;
   }
   /* Stack the intro: copy first, word-cloud below; drop the divider */
   .intro-grid {
