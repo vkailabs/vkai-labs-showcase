@@ -1026,6 +1026,173 @@ body.user-is-tabbing .rag-submit:focus {
   }
 }
 
+/* ============================================================
+   Slide 4 — Knowledge Graph
+   ============================================================ */
+.slide-kg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(16px, 2.6vh, 30px);
+  max-width: 1180px;
+  text-align: left;
+}
+.slide-head-kg {
+  flex: 0 0 auto;
+}
+.kg-body {
+  display: grid;
+  grid-template-columns: 2fr 3fr; /* 40% / 60% */
+  align-items: stretch;
+  gap: clamp(16px, 2vw, 28px);
+  min-height: 0;
+}
+
+/* Canvas wrapper — right column, tall and prominent, top-to-bottom of the
+   available slide height, per explicit sizing request. */
+.kg-canvas-wrap {
+  position: relative;
+  background: linear-gradient(180deg, var(--card), var(--card-2));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: clamp(440px, 66vh, 720px);
+}
+#kg-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Type legend, top-left over the canvas */
+.kg-legend {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px 16px;
+  pointer-events: none;
+  overflow: hidden;
+}
+.kg-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.kg-legend-swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+/* Hover tooltip — page-level, position:fixed (not absolute inside the
+   canvas wrapper) so it's never clipped by that wrapper's overflow:hidden,
+   and z-index high enough to sit above the lightbox's own overlay chrome. */
+.kg-tooltip {
+  position: fixed;
+  z-index: 200;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text);
+  background: rgba(10, 14, 20, 0.95);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 6px 10px;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translate(-50%, -130%);
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
+}
+
+/* Query panel — mirrors .rag-demo's card treatment for visual consistency
+   with the RAG slide's "live demo" panel. */
+.kg-demo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(140% 100% at 15% 0%, rgba(20, 184, 166, 0.1), transparent 55%),
+    linear-gradient(180deg, var(--card), var(--card-2));
+  border: 1px solid rgba(20, 184, 166, 0.4);
+  border-radius: var(--radius-lg);
+  padding: clamp(20px, 2.6vw, 34px);
+  box-shadow:
+    0 0 0 1px rgba(20, 184, 166, 0.1),
+    0 24px 60px -24px rgba(0, 0, 0, 0.7),
+    0 0 60px -18px rgba(20, 184, 166, 0.35);
+}
+.kg-query-row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+.kg-query-label {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+}
+.kg-select {
+  width: 100%;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-family: var(--sans);
+  font-size: 14.5px;
+  color: var(--text);
+}
+.kg-select:focus {
+  outline: none;
+  border-color: var(--accent-glow);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.18);
+}
+body.user-is-tabbing .kg-select:focus {
+  outline: none;
+}
+#kg-run {
+  width: 100%;
+  margin-top: 4px;
+}
+.kg-result {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+.kg-demo .rag-note {
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+@media (max-width: 900px) {
+  .kg-body {
+    grid-template-columns: 1fr;
+  }
+  .kg-canvas-wrap {
+    height: clamp(320px, 46vh, 480px);
+  }
+  .kg-demo {
+    height: auto;
+  }
+  .kg-legend {
+    gap: 5px 10px;
+  }
+  .kg-legend-item {
+    font-size: 9.5px;
+  }
+}
+
 /* ---------- Next button ---------- */
 .next-btn {
   position: fixed;

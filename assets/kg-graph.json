@@ -1,0 +1,566 @@
+{
+  "nodes": [
+    {
+      "id": "agent-vkai-master",
+      "type": "Agent",
+      "label": "agent-vkai-master",
+      "title": null,
+      "status": null
+    },
+    {
+      "id": "subAgent-vkai-client",
+      "type": "Agent",
+      "label": "subAgent-vkai-client",
+      "title": null,
+      "status": null
+    },
+    {
+      "id": "subAgent-vkai-client-api",
+      "type": "Agent",
+      "label": "subAgent-vkai-client-api",
+      "title": null,
+      "status": null
+    },
+    {
+      "id": "subAgent-vkai-provider",
+      "type": "Agent",
+      "label": "subAgent-vkai-provider",
+      "title": null,
+      "status": null
+    },
+    {
+      "id": "subAgent-vkai-provider-api",
+      "type": "Agent",
+      "label": "subAgent-vkai-provider-api",
+      "title": null,
+      "status": null
+    },
+    {
+      "id": "agent-vkai-automation",
+      "type": "Agent",
+      "label": "agent-vkai-automation",
+      "title": null,
+      "status": null
+    },
+    {
+      "id": "agent-vkai-jira-update",
+      "type": "Agent",
+      "label": "agent-vkai-jira-update",
+      "title": null,
+      "status": null
+    },
+    {
+      "id": "agent-vkai-jira-story",
+      "type": "Agent",
+      "label": "agent-vkai-jira-story",
+      "title": null,
+      "status": null
+    },
+    {
+      "id": "VJS-44",
+      "type": "Story",
+      "label": "VJS-44",
+      "title": "Dashboard 'Your policies' split into Active/Pending",
+      "status": "Done"
+    },
+    {
+      "id": "VJS-42",
+      "type": "Story",
+      "label": "VJS-42",
+      "title": "Client Portal heading centered, remove 'Welcome back'",
+      "status": "Done"
+    },
+    {
+      "id": "VJS-43",
+      "type": "Story",
+      "label": "VJS-43",
+      "title": "Dashboard Active/Pending policy count summaries",
+      "status": "Done"
+    },
+    {
+      "id": "AUTH-004",
+      "type": "Scenario",
+      "label": "AUTH-004",
+      "title": "Registered customer logs in with valid credentials",
+      "status": null
+    },
+    {
+      "id": "AUTH-005",
+      "type": "Scenario",
+      "label": "AUTH-005",
+      "title": "Login fails with an incorrect password",
+      "status": null
+    },
+    {
+      "id": "AUTH-006",
+      "type": "Scenario",
+      "label": "AUTH-006",
+      "title": "Login page shows centered 'Client Portal' heading",
+      "status": null
+    },
+    {
+      "id": "CAT-001",
+      "type": "Scenario",
+      "label": "CAT-001",
+      "title": "Customer views the policy catalog",
+      "status": null
+    },
+    {
+      "id": "ENR-001",
+      "type": "Scenario",
+      "label": "ENR-001",
+      "title": "Customer enrolls in a policy plan",
+      "status": null
+    },
+    {
+      "id": "PREM-002",
+      "type": "Scenario",
+      "label": "PREM-002",
+      "title": "Customer cannot pay a premium on a pending policy",
+      "status": null
+    },
+    {
+      "id": "CLM-003",
+      "type": "Scenario",
+      "label": "CLM-003",
+      "title": "Customer cannot file a claim on a pending policy",
+      "status": null
+    },
+    {
+      "id": "DASH-001",
+      "type": "Scenario",
+      "label": "DASH-001",
+      "title": "Dashboard shows Active/Pending policy count summaries",
+      "status": null
+    },
+    {
+      "id": "DASH-003",
+      "type": "Scenario",
+      "label": "DASH-003",
+      "title": "Dashboard 'Your policies' split into Active/Pending sections",
+      "status": null
+    },
+    {
+      "id": "E2E-001",
+      "type": "Scenario",
+      "label": "E2E-001",
+      "title": "Customer enrolls and cannot pay until policy is active",
+      "status": null
+    },
+    {
+      "id": "VJS-TC-AUTH-004",
+      "type": "TestCase",
+      "label": "VJS-TC-AUTH-004",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "VJS-TC-AUTH-005",
+      "type": "TestCase",
+      "label": "VJS-TC-AUTH-005",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "VJS-TC-AUTH-006",
+      "type": "TestCase",
+      "label": "VJS-TC-AUTH-006",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "VJS-TC-CAT-001",
+      "type": "TestCase",
+      "label": "VJS-TC-CAT-001",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "VJS-TC-ENR-001",
+      "type": "TestCase",
+      "label": "VJS-TC-ENR-001",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "VJS-TC-PREM-002",
+      "type": "TestCase",
+      "label": "VJS-TC-PREM-002",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "VJS-TC-CLM-003",
+      "type": "TestCase",
+      "label": "VJS-TC-CLM-003",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "VJS-TC-DASH-001",
+      "type": "TestCase",
+      "label": "VJS-TC-DASH-001",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "VJS-45",
+      "type": "TestCase",
+      "label": "VJS-45",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "VJS-TC-E2E-001",
+      "type": "TestCase",
+      "label": "VJS-TC-E2E-001",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "CUST-001",
+      "type": "Customer",
+      "label": "CUST-001",
+      "title": null,
+      "status": null
+    },
+    {
+      "id": "CUST-002",
+      "type": "Customer",
+      "label": "CUST-002",
+      "title": null,
+      "status": null
+    },
+    {
+      "id": "POL-1001",
+      "type": "Policy",
+      "label": "POL-1001",
+      "title": null,
+      "status": "active"
+    },
+    {
+      "id": "POL-1002",
+      "type": "Policy",
+      "label": "POL-1002",
+      "title": null,
+      "status": "pending"
+    },
+    {
+      "id": "POL-1003",
+      "type": "Policy",
+      "label": "POL-1003",
+      "title": null,
+      "status": "active"
+    },
+    {
+      "id": "PREM-5001",
+      "type": "Premium",
+      "label": "PREM-5001",
+      "title": null,
+      "status": null
+    },
+    {
+      "id": "PREM-5002",
+      "type": "Premium",
+      "label": "PREM-5002",
+      "title": null,
+      "status": null
+    },
+    {
+      "id": "CLM-9001",
+      "type": "Claim",
+      "label": "CLM-9001",
+      "title": null,
+      "status": "Paid"
+    },
+    {
+      "id": "CLM-9002",
+      "type": "Claim",
+      "label": "CLM-9002",
+      "title": null,
+      "status": "Under Review"
+    }
+  ],
+  "edges": [
+    {
+      "source": "subAgent-vkai-client",
+      "target": "VJS-44",
+      "relation": "IMPLEMENTED"
+    },
+    {
+      "source": "subAgent-vkai-client",
+      "target": "VJS-42",
+      "relation": "IMPLEMENTED"
+    },
+    {
+      "source": "subAgent-vkai-client",
+      "target": "VJS-43",
+      "relation": "IMPLEMENTED"
+    },
+    {
+      "source": "agent-vkai-automation",
+      "target": "VJS-TC-AUTH-004",
+      "relation": "AUTHORED"
+    },
+    {
+      "source": "agent-vkai-automation",
+      "target": "VJS-TC-AUTH-005",
+      "relation": "AUTHORED"
+    },
+    {
+      "source": "agent-vkai-automation",
+      "target": "VJS-TC-AUTH-006",
+      "relation": "AUTHORED"
+    },
+    {
+      "source": "agent-vkai-automation",
+      "target": "VJS-TC-CAT-001",
+      "relation": "AUTHORED"
+    },
+    {
+      "source": "agent-vkai-automation",
+      "target": "VJS-TC-ENR-001",
+      "relation": "AUTHORED"
+    },
+    {
+      "source": "agent-vkai-automation",
+      "target": "VJS-TC-PREM-002",
+      "relation": "AUTHORED"
+    },
+    {
+      "source": "agent-vkai-automation",
+      "target": "VJS-TC-CLM-003",
+      "relation": "AUTHORED"
+    },
+    {
+      "source": "agent-vkai-automation",
+      "target": "VJS-TC-DASH-001",
+      "relation": "AUTHORED"
+    },
+    {
+      "source": "agent-vkai-automation",
+      "target": "VJS-45",
+      "relation": "AUTHORED"
+    },
+    {
+      "source": "agent-vkai-automation",
+      "target": "VJS-TC-E2E-001",
+      "relation": "AUTHORED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-TC-AUTH-004",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-TC-AUTH-005",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-TC-AUTH-006",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-TC-CAT-001",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-TC-ENR-001",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-TC-PREM-002",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-TC-CLM-003",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-TC-DASH-001",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-45",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-TC-E2E-001",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-story",
+      "target": "VJS-44",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-story",
+      "target": "VJS-42",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-story",
+      "target": "VJS-43",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "VJS-44",
+      "target": "DASH-003",
+      "relation": "HAS_SCENARIO"
+    },
+    {
+      "source": "VJS-44",
+      "target": "VJS-45",
+      "relation": "RELATES_TO"
+    },
+    {
+      "source": "VJS-42",
+      "target": "AUTH-006",
+      "relation": "HAS_SCENARIO"
+    },
+    {
+      "source": "VJS-42",
+      "target": "VJS-TC-AUTH-006",
+      "relation": "RELATES_TO"
+    },
+    {
+      "source": "VJS-43",
+      "target": "DASH-001",
+      "relation": "HAS_SCENARIO"
+    },
+    {
+      "source": "VJS-43",
+      "target": "VJS-TC-DASH-001",
+      "relation": "RELATES_TO"
+    },
+    {
+      "source": "AUTH-004",
+      "target": "VJS-TC-AUTH-004",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "AUTH-005",
+      "target": "VJS-TC-AUTH-005",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "AUTH-006",
+      "target": "VJS-TC-AUTH-006",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "CAT-001",
+      "target": "VJS-TC-CAT-001",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "CAT-001",
+      "target": "POL-1001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "ENR-001",
+      "target": "VJS-TC-ENR-001",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "ENR-001",
+      "target": "POL-1001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "PREM-002",
+      "target": "VJS-TC-PREM-002",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "PREM-002",
+      "target": "PREM-5001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "CLM-003",
+      "target": "VJS-TC-CLM-003",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "CLM-003",
+      "target": "CLM-9001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "DASH-001",
+      "target": "VJS-TC-DASH-001",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "DASH-001",
+      "target": "POL-1001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "DASH-003",
+      "target": "VJS-45",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "DASH-003",
+      "target": "POL-1001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "E2E-001",
+      "target": "VJS-TC-E2E-001",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "E2E-001",
+      "target": "POL-1001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "CUST-001",
+      "target": "POL-1001",
+      "relation": "OWNS"
+    },
+    {
+      "source": "CUST-001",
+      "target": "POL-1002",
+      "relation": "OWNS"
+    },
+    {
+      "source": "CUST-002",
+      "target": "POL-1003",
+      "relation": "OWNS"
+    },
+    {
+      "source": "POL-1001",
+      "target": "PREM-5001",
+      "relation": "HAS_PREMIUM"
+    },
+    {
+      "source": "POL-1001",
+      "target": "CLM-9001",
+      "relation": "HAS_CLAIM"
+    },
+    {
+      "source": "POL-1003",
+      "target": "PREM-5002",
+      "relation": "HAS_PREMIUM"
+    },
+    {
+      "source": "POL-1003",
+      "target": "CLM-9002",
+      "relation": "HAS_CLAIM"
+    }
+  ]
+}
