@@ -57,6 +57,13 @@
       "status": null
     },
     {
+      "id": "VJS-46",
+      "type": "Story",
+      "label": "VJS-46",
+      "title": "Add \"Policy Name\" for each claim shown under claims tab in Provider Portal",
+      "status": "Done"
+    },
+    {
       "id": "VJS-44",
       "type": "Story",
       "label": "VJS-44",
@@ -145,6 +152,13 @@
       "type": "Scenario",
       "label": "E2E-001",
       "title": "Customer enrolls and cannot pay until policy is active",
+      "status": null
+    },
+    {
+      "id": "CLM-004",
+      "type": "Scenario",
+      "label": "CLM-004",
+      "title": "Add \"Policy Name\" for each claim shown under claims tab in Provider Portal",
       "status": null
     },
     {
@@ -298,6 +312,16 @@
       "relation": "IMPLEMENTED"
     },
     {
+      "source": "subAgent-vkai-provider",
+      "target": "VJS-46",
+      "relation": "IMPLEMENTED"
+    },
+    {
+      "source": "subAgent-vkai-provider-api",
+      "target": "VJS-46",
+      "relation": "IMPLEMENTED"
+    },
+    {
       "source": "agent-vkai-automation",
       "target": "VJS-TC-AUTH-004",
       "relation": "AUTHORED"
@@ -395,6 +419,11 @@
     {
       "source": "agent-vkai-jira-update",
       "target": "VJS-TC-E2E-001",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-story",
+      "target": "VJS-46",
       "relation": "CLOSED"
     },
     {
@@ -411,6 +440,11 @@
       "source": "agent-vkai-jira-story",
       "target": "VJS-43",
       "relation": "CLOSED"
+    },
+    {
+      "source": "VJS-46",
+      "target": "CLM-004",
+      "relation": "HAS_SCENARIO"
     },
     {
       "source": "VJS-44",
@@ -525,6 +559,11 @@
     {
       "source": "E2E-001",
       "target": "POL-1001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "CLM-004",
+      "target": "CLM-9001",
       "relation": "COVERS"
     },
     {
