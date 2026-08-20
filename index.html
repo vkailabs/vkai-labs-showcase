@@ -313,7 +313,68 @@
       </div>
     </div>
   </section>
+
+  <!-- ============ SLIDE 4 — KNOWLEDGE GRAPH ============ -->
+  <section
+    class="slide"
+    id="slide-4"
+    data-index="3"
+    role="group"
+    aria-roledescription="slide"
+    aria-label="Knowledge Graph"
+    hidden
+  >
+    <div class="slide-inner slide-kg">
+      <div class="slide-head slide-head-kg">
+        <p class="brand-line">VK AI LABS · E2E ENGINEERING PLATFORM</p>
+        <p class="eyebrow">KNOWLEDGE GRAPH</p>
+        <h2 class="headline">One Graph. Orchestration and Domain, Connected.</h2>
+      </div>
+
+      <div class="kg-body">
+        <div class="kg-demo">
+          <p class="rag-label">Run a real traversal query</p>
+
+          <div class="kg-query-row">
+            <label class="kg-query-label" for="kg-query-type">Query</label>
+            <select class="kg-select" id="kg-query-type">
+              <option value="test-cases-for-story">Test cases related to a Story</option>
+              <option value="claims-for-policy">Claims related to a Policy</option>
+              <option value="agents-for-story">Agents that worked a Story</option>
+              <option value="policies-for-customer">Policies owned by a Customer</option>
+            </select>
+
+            <label class="kg-query-label" for="kg-query-target">Target</label>
+            <select class="kg-select" id="kg-query-target"></select>
+
+            <button class="rag-submit" id="kg-run" type="button">Run</button>
+          </div>
+
+          <div class="kg-result" id="kg-result" hidden>
+            <p class="rag-answer" id="kg-answer"></p>
+          </div>
+
+          <p class="rag-note">
+            Traversal runs live against the same graph rendered above — 40 nodes, 46 edges,
+            built with NetworkX from real Jira/orchestration data plus representative
+            insurance records.
+          </p>
+        </div>
+
+        <div class="kg-canvas-wrap">
+          <canvas id="kg-canvas" aria-label="Force-directed graph of Stories, Scenarios, Test Cases, Agents, Policies, Premiums, and Claims"></canvas>
+          <div class="kg-legend" id="kg-legend" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<!-- kg-tooltip lives at page level (not inside .kg-canvas-wrap) and is
+     positioned via position:fixed in JS using viewport coordinates. The
+     canvas wrapper needs overflow:hidden for clean edges, which was also
+     clipping the tooltip whenever it landed near the box's border. -->
+<div class="kg-tooltip" id="kg-tooltip" hidden></div>
 
 <!-- ============ PAGE CHROME: NAV ============ -->
 <button class="next-btn" id="next-btn" type="button" aria-label="Go to The Platform slide">
@@ -325,6 +386,7 @@
   <button class="dot is-active" type="button" data-goto="0" aria-label="Go to slide 1: Intro" aria-current="true"></button>
   <button class="dot" type="button" data-goto="1" aria-label="Go to slide 2: The Platform"></button>
   <button class="dot" type="button" data-goto="2" aria-label="Go to slide 3: Retrieval-Augmented Generation"></button>
+  <button class="dot" type="button" data-goto="3" aria-label="Go to slide 4: Knowledge Graph"></button>
 </nav>
 
 <!-- ============ LIGHTBOX ============ -->

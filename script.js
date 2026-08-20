@@ -38,7 +38,7 @@
   var current = 0;
 
   // Label + aria for the Next button, per slide it will advance TO.
-  var NEXT_LABELS = ["The Platform", "RAG Demo", null];
+  var NEXT_LABELS = ["The Platform", "RAG Demo", "Knowledge Graph", null];
 
   function updateChrome() {
     dots.forEach(function (dot, i) {
@@ -616,5 +616,468 @@
           );
         });
     });
+  }
+
+  /* ============================================================
+     Slide 4 — Knowledge Graph
+     ============================================================ */
+  var kgCanvas = document.getElementById("kg-canvas");
+  if (kgCanvas) {
+    initKnowledgeGraph();
+  }
+
+  function initKnowledgeGraph() {
+    var TYPE_COLORS = {
+      Agent: "#4C72B0",
+      Story: "#55A868",
+      Scenario: "#8172B2",
+      TestCase: "#64B5CD",
+      Customer: "#C44E52",
+      Policy: "#DD8452",
+      Premium: "#E8A87C",
+      Claim: "#CD6155"
+    };
+    var TYPE_ORDER = [
+      "Agent", "Story", "Scenario", "TestCase",
+      "Customer", "Policy", "Premium", "Claim"
+    ];
+
+    var ctx = kgCanvas.getContext("2d");
+    var wrap = kgCanvas.parentElement;
+    var legendEl = document.getElementById("kg-legend");
+    var tooltipEl = document.getElementById("kg-tooltip");
+
+    var queryTypeSel = document.getElementById("kg-query-type");
+    var queryTargetSel = document.getElementById("kg-query-target");
+    var runBtn = document.getElementById("kg-run");
+    var resultBox = document.getElementById("kg-result");
+    var answerEl = document.getElementById("kg-answer");
+
+    var graph = null;      // { nodes: [...], edges: [...] }
+    var byId = {};         // id -> node (with x, y, vx, vy added)
+    var adjacency = {};    // id -> [{ to, relation, dir }]
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0;
+    var hoveredId = null;
+    var highlightedIds = null; // Set of node ids to emphasize, or null for "show all"
+
+    function resizeCanvas() {
+      W = wrap.clientWidth;
+      H = wrap.clientHeight;
+      kgCanvas.width = W * dpr;
+      kgCanvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function buildAdjacency() {
+      adjacency = {};
+      graph.nodes.forEach(function (n) {
+        adjacency[n.id] = [];
+      });
+      graph.edges.forEach(function (e) {
+        adjacency[e.source].push({ to: e.target, relation: e.relation, dir: "out" });
+        adjacency[e.target].push({ to: e.source, relation: e.relation, dir: "in" });
+      });
+    }
+
+    /* ---------- simple force-directed layout (no library) ----------
+       Repulsion between all node pairs + spring attraction along edges,
+       run for a fixed number of iterations on load. Small graph (40
+       nodes / 46 edges), so a naive O(n^2) simulation is plenty fast.
+
+       REPULSION/SPRING_LEN scale with the canvas's actual W/H (standard
+       Fruchterman-Reingold "ideal distance" technique: k = sqrt(area/n))
+       rather than being fixed numbers. Fixed constants were tuned for the
+       old, shorter canvas — once the canvas got taller, the simulation
+       reached equilibrium well before using the full height, leaving nodes
+       clustered in the middle with empty space top and bottom. Deriving
+       the constants from W/H means the layout always spreads to fill
+       whatever box it's actually given. */
+    function layout() {
+      var nodes = graph.nodes;
+      var n = nodes.length;
+
+      // Ideal inter-node spacing for this box + node count.
+      var k = Math.sqrt((W * H) / n);
+
+      nodes.forEach(function (node, i) {
+        var angle = (i / n) * Math.PI * 2;
+        // Elliptical start (scaled by W and H separately, not a circle
+        // bounded by the smaller dimension) so the initial spread already
+        // reflects a tall box's aspect ratio rather than being width-bound.
+        node.x = W / 2 + Math.cos(angle) * W * 0.36;
+        node.y = H / 2 + Math.sin(angle) * H * 0.36;
+        node.vx = 0;
+        node.vy = 0;
+      });
+
+      var REPULSION = k * k * 0.42;
+      var SPRING_LEN = k * 0.85;
+      var SPRING_K = 0.02;
+      var DAMPING = 0.82;
+      var iterations = 220;
+
+      for (var iter = 0; iter < iterations; iter++) {
+        // repulsion
+        for (var a = 0; a < n; a++) {
+          for (var b = a + 1; b < n; b++) {
+            var na = nodes[a], nb = nodes[b];
+            var dx = na.x - nb.x, dy = na.y - nb.y;
+            var distSq = dx * dx + dy * dy || 0.01;
+            var dist = Math.sqrt(distSq);
+            var force = REPULSION / distSq;
+            var fx = (dx / dist) * force;
+            var fy = (dy / dist) * force;
+            na.vx += fx; na.vy += fy;
+            nb.vx -= fx; nb.vy -= fy;
+          }
+        }
+        // spring attraction along edges
+        graph.edges.forEach(function (e) {
+          var na = byId[e.source], nb = byId[e.target];
+          var dx = nb.x - na.x, dy = nb.y - na.y;
+          var dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
+          var force = (dist - SPRING_LEN) * SPRING_K;
+          var fx = (dx / dist) * force;
+          var fy = (dy / dist) * force;
+          na.vx += fx; na.vy += fy;
+          nb.vx -= fx; nb.vy -= fy;
+        });
+        // integrate, damp, and pull gently toward center
+        nodes.forEach(function (node) {
+          node.vx *= DAMPING;
+          node.vy *= DAMPING;
+          node.vx += (W / 2 - node.x) * 0.0015;
+          node.vy += (H / 2 - node.y) * 0.0015;
+          node.x += node.vx;
+          node.y += node.vy;
+        });
+      }
+
+      // settle inside the canvas with padding
+      var pad = 34;
+      nodes.forEach(function (node) {
+        node.x = Math.max(pad, Math.min(W - pad, node.x));
+        node.y = Math.max(pad, Math.min(H - pad, node.y));
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      // edges
+      graph.edges.forEach(function (e) {
+        var na = byId[e.source], nb = byId[e.target];
+        var touchesHover = e.source === hoveredId || e.target === hoveredId;
+        var inHighlight = highlightedIds && highlightedIds.has(e.source) && highlightedIds.has(e.target);
+        var dim = highlightedIds ? !inHighlight && !touchesHover : (hoveredId && !touchesHover);
+        ctx.beginPath();
+        ctx.moveTo(na.x, na.y);
+        ctx.lineTo(nb.x, nb.y);
+        if (e.relation === "COVERS") {
+          ctx.setLineDash([4, 4]);
+          ctx.strokeStyle = dim ? "rgba(153,153,153,0.12)" : "rgba(153,153,153,0.55)";
+        } else {
+          ctx.setLineDash([]);
+          ctx.strokeStyle = dim ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.16)";
+        }
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      });
+      ctx.setLineDash([]);
+
+      // nodes
+      graph.nodes.forEach(function (node) {
+        // A node stays fully bright if it's part of the active query
+        // highlight OR if it's the one currently hovered — hovering must
+        // always give visual feedback, even while a query highlight is
+        // dimming everything else. Previously hover was skipped whenever
+        // a highlight was active, which looked like "hover stopped working".
+        var isHighlighted = highlightedIds && highlightedIds.has(node.id);
+        var isHovered = node.id === hoveredId;
+        var dim = highlightedIds && !isHighlighted && !isHovered;
+        var color = TYPE_COLORS[node.type] || "#999999";
+        var r = isHovered || isHighlighted ? 7 : 5.5;
+
+        ctx.globalAlpha = dim ? 0.22 : 1;
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = isHovered ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.35)";
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      });
+    }
+
+    function nodeAt(px, py) {
+      // Hit-test in draw order and prefer the LAST match (drawn on top),
+      // not just the nearest center. In dense areas several node centers
+      // can be close together; picking pure nearest-distance can return a
+      // node that's visually behind another one under the cursor, which
+      // looks like "hover randomly doesn't work" in crowded parts of the
+      // graph. Preferring draw-order matches what the eye actually sees.
+      var HIT_RADIUS = 12; // CSS px
+      var found = null;
+      graph.nodes.forEach(function (node) {
+        var dx = node.x - px, dy = node.y - py;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d < HIT_RADIUS) {
+          found = node; // later matches overwrite earlier ones on purpose
+        }
+      });
+      return found;
+    }
+
+    function buildLegend() {
+      legendEl.innerHTML = "";
+      TYPE_ORDER.forEach(function (type) {
+        var item = document.createElement("span");
+        item.className = "kg-legend-item";
+        var swatch = document.createElement("span");
+        swatch.className = "kg-legend-swatch";
+        swatch.style.background = TYPE_COLORS[type];
+        item.appendChild(swatch);
+        item.appendChild(document.createTextNode(type));
+        legendEl.appendChild(item);
+      });
+    }
+
+    /* ---------- hover highlight (mousemove, no click handling) ---------- */
+    kgCanvas.addEventListener("mousemove", function (e) {
+      var rect = kgCanvas.getBoundingClientRect();
+      var px = e.clientX - rect.left;
+      var py = e.clientY - rect.top;
+      var node = nodeAt(px, py);
+      var newId = node ? node.id : null;
+      if (newId !== hoveredId) {
+        hoveredId = newId;
+        draw();
+      }
+      if (node) {
+        tooltipEl.hidden = false;
+        tooltipEl.textContent = node.type + " — " + node.label;
+        // position:fixed now, so use viewport coordinates directly rather
+        // than the canvas-relative px/py used for hit-testing above.
+        tooltipEl.style.left = e.clientX + "px";
+        tooltipEl.style.top = e.clientY + "px";
+      } else {
+        tooltipEl.hidden = true;
+      }
+    });
+    kgCanvas.addEventListener("mouseleave", function () {
+      hoveredId = null;
+      tooltipEl.hidden = true;
+      draw();
+    });
+
+    /* ---------- query panel ---------- */
+    var STORY_KEYS = [];
+    var POLICY_IDS = [];
+    var CUSTOMER_IDS = [];
+
+    var TARGETS_BY_QUERY = {
+      "test-cases-for-story": function () { return STORY_KEYS; },
+      "claims-for-policy": function () { return POLICY_IDS; },
+      "agents-for-story": function () { return STORY_KEYS; },
+      "policies-for-customer": function () { return CUSTOMER_IDS; }
+    };
+
+    function populateTargets() {
+      var type = queryTypeSel.value;
+      var options = (TARGETS_BY_QUERY[type] || function () { return []; })();
+      queryTargetSel.innerHTML = "";
+      options.forEach(function (id) {
+        var opt = document.createElement("option");
+        opt.value = id;
+        opt.textContent = id;
+        queryTargetSel.appendChild(opt);
+      });
+      // Switching what's being queried invalidates any previous highlight/answer
+      // on screen — clear both so nothing stale is left showing a result that
+      // no longer matches the new target list.
+      highlightedIds = null;
+      resultBox.hidden = true;
+      draw();
+    }
+
+    function outEdgesByRelation(id, relation) {
+      return (adjacency[id] || [])
+        .filter(function (e) { return e.dir === "out" && e.relation === relation; })
+        .map(function (e) { return e.to; });
+    }
+
+    function inEdgesByRelation(id, relation) {
+      return (adjacency[id] || [])
+        .filter(function (e) { return e.dir === "in" && e.relation === relation; })
+        .map(function (e) { return e.to; });
+    }
+
+    function testCasesForStory(storyKey) {
+      var direct = outEdgesByRelation(storyKey, "RELATES_TO");
+      var viaScenarios = [];
+      outEdgesByRelation(storyKey, "HAS_SCENARIO").forEach(function (scenarioId) {
+        viaScenarios = viaScenarios.concat(outEdgesByRelation(scenarioId, "VERIFIED_BY"));
+      });
+      var all = direct.concat(viaScenarios);
+      return Array.prototype.filter.call(all, function (id, i) {
+        return all.indexOf(id) === i;
+      });
+    }
+
+    function claimsForPolicy(policyId) {
+      return outEdgesByRelation(policyId, "HAS_CLAIM");
+    }
+
+    function agentsForStory(storyKey) {
+      // Some agents connect directly to the Story (IMPLEMENTED/CLOSED); others
+      // — agent-vkai-automation, agent-vkai-jira-update — work at the Test
+      // Case level in the real orchestration workflow, not the Story node
+      // itself. A direct-edges-only traversal under-reports who actually
+      // worked the story, so this also walks through its Test Cases.
+      var direct = inEdgesByRelation(storyKey, "IMPLEMENTED")
+        .concat(inEdgesByRelation(storyKey, "CLOSED"));
+      var viaTestCases = [];
+      testCasesForStory(storyKey).forEach(function (tc) {
+        viaTestCases = viaTestCases
+          .concat(inEdgesByRelation(tc, "AUTHORED"))
+          .concat(inEdgesByRelation(tc, "CLOSED"));
+      });
+      var all = direct.concat(viaTestCases);
+      return Array.prototype.filter.call(all, function (id, i) {
+        return all.indexOf(id) === i;
+      });
+    }
+
+    function policiesForCustomer(customerId) {
+      return outEdgesByRelation(customerId, "OWNS");
+    }
+
+    function runQuery() {
+      var type = queryTypeSel.value;
+      var target = queryTargetSel.value;
+      if (!target) return;
+
+      var resultIds, label, pathIds;
+
+      if (type === "test-cases-for-story") {
+        resultIds = testCasesForStory(target);
+        label = "Test cases related to " + target;
+        pathIds = [target].concat(
+          outEdgesByRelation(target, "HAS_SCENARIO")
+        ).concat(resultIds);
+      } else if (type === "claims-for-policy") {
+        resultIds = claimsForPolicy(target);
+        label = "Claims related to " + target;
+        pathIds = [target].concat(resultIds);
+      } else if (type === "agents-for-story") {
+        resultIds = agentsForStory(target);
+        label = "Agents that worked " + target;
+        var scenarios = outEdgesByRelation(target, "HAS_SCENARIO");
+        var testCases = testCasesForStory(target);
+        pathIds = [target].concat(scenarios).concat(testCases).concat(resultIds);
+      } else {
+        resultIds = policiesForCustomer(target);
+        label = "Policies owned by " + target;
+        pathIds = [target].concat(resultIds);
+      }
+
+      highlightedIds = new Set(pathIds);
+      draw();
+
+      if (resultIds.length === 0) {
+        answerEl.textContent = label + ": none found.";
+      } else {
+        var described = resultIds.map(function (id) {
+          var n = byId[id];
+          var extra = n && (n.title || n.status) ? " (" + (n.title || n.status) + ")" : "";
+          return id + extra;
+        });
+        answerEl.textContent = label + " \u2192 " + described.join(", ");
+      }
+      resultBox.hidden = false;
+    }
+
+    queryTypeSel.addEventListener("change", populateTargets);
+    runBtn.addEventListener("click", runQuery);
+
+    /* ---------- load data, then build ---------- */
+    var kgSlide = document.getElementById("slide-4");
+    var laidOut = false;
+
+    function sizeAndDraw() {
+      if (!graph) return;
+      resizeCanvas();
+      layout();
+      draw();
+      laidOut = true;
+    }
+
+    fetch("assets/kg-graph.json")
+      .then(function (res) {
+        if (!res.ok) throw new Error("Failed to load graph data (" + res.status + ")");
+        return res.json();
+      })
+      .then(function (data) {
+        graph = data;
+        graph.nodes.forEach(function (n) { byId[n.id] = n; });
+        buildAdjacency();
+        buildLegend();
+
+        STORY_KEYS = graph.nodes.filter(function (n) { return n.type === "Story"; })
+          .map(function (n) { return n.id; });
+        POLICY_IDS = graph.nodes.filter(function (n) { return n.type === "Policy"; })
+          .map(function (n) { return n.id; });
+        CUSTOMER_IDS = graph.nodes.filter(function (n) { return n.type === "Customer"; })
+          .map(function (n) { return n.id; });
+        populateTargets();
+
+        // The canvas may still be `hidden` right now (only Slide 1 is visible
+        // on load) — a hidden element has clientWidth/clientHeight of 0, so
+        // sizing/laying out immediately would collapse every node to a point.
+        // If the slide happens to already be active, size now; either way,
+        // also watch for it becoming active and (re)size then.
+        if (kgSlide.classList.contains("is-active")) {
+          sizeAndDraw();
+        }
+      })
+      .catch(function (err) {
+        var wrapEl = document.querySelector(".kg-canvas-wrap");
+        if (wrapEl) {
+          wrapEl.innerHTML =
+            '<p style="padding:20px;color:var(--text-dim);font-family:var(--mono);font-size:13px;">' +
+            "Couldn't load the knowledge graph data right now." +
+            "</p>";
+        }
+      });
+
+    // Re-run sizing/layout whenever the canvas wrapper's actual rendered
+    // size changes — this covers "slide just became visible" (its size
+    // goes from 0 to real), ordinary window resizes, AND the case that was
+    // actually breaking hover: sizing being measured a frame before the
+    // slide's layout had fully settled, which left hit-testing coordinates
+    // very slightly out of sync with what was drawn. A MutationObserver on
+    // the "is-active" class (used below too, for the initial slide-1-style
+    // canvas) fires the instant the class changes, not when layout is
+    // actually final — ResizeObserver fires on the real settled size, which
+    // is what hit-testing needs to line up correctly.
+    var kgResizeObserver = new ResizeObserver(function () {
+      if (kgSlide.classList.contains("is-active") && graph) {
+        sizeAndDraw();
+      }
+    });
+    kgResizeObserver.observe(wrap);
+
+    // Re-run sizing/layout every time Slide 4 becomes the active slide —
+    // covers both "first time it's ever shown" and "window was resized
+    // while a different slide was active". Same MutationObserver pattern
+    // used for the Slide 1 orchestration canvas above.
+    var kgObserver = new MutationObserver(function () {
+      if (kgSlide.classList.contains("is-active")) {
+        sizeAndDraw();
+      }
+    });
+    kgObserver.observe(kgSlide, { attributes: true, attributeFilter: ["class"] });
   }
 })();
