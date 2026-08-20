@@ -3,10 +3,20 @@
 ## What this is
 A single-page, full-screen showcase website for "VK AI Labs — E2E Engineering Platform" —
 a portfolio/demo piece presenting the VK AI Labs Insurance platform (dual-cloud, GCP + Azure,
-built via multi-agent AI orchestration) to interviewers and clients. Six full-viewport slides:
-Intro, AI Orchestration, Solution Architecture, Test Automation Framework, Verified in
-Production (portal links + jump-to-demo card), and a live RAG Demo. No scrolling —
-navigation only via a bottom-left "Next" button, clickable progress dots, arrow keys, or swipe.
+built via multi-agent AI orchestration) to interviewers and clients. Four full-viewport slides:
+
+1. **Intro** — the pitch, tech stack, animated orchestration motif.
+2. **The Platform (hub)** — four tiles covering Multi-Agent Orchestration, Solution
+   Architecture, Test Automation Framework, and System Flow, plus links to the live Client
+   and Provider portals.
+3. **RAG in Practice** — live retrieval-augmented generation demo, grounded in this
+   project's own documentation.
+4. **Knowledge Graph** — live interactive force-directed graph of the platform's real
+   Story/Scenario/TestCase/Agent orchestration data bridged to representative
+   Policy/Premium/Claim insurance records, with a live traversal query panel.
+
+No scrolling — navigation only via a bottom-left "Next" button, clickable progress dots,
+arrow keys, or swipe.
 
 ## Tech stack — DO NOT introduce a frontend framework or build step
 Frontend is plain HTML/CSS/JS only: index.html, styles.css, script.js. No npm dependencies,
@@ -41,7 +51,7 @@ diagram ever needs to change, get a fresh export from the source Claude Project 
 recreate or edit the PNGs directly, and don't reintroduce an HTML/SVG version without explicitly
 checking it for overflow/clipping first (see "Known bug patterns" below).
 
-## RAG Demo (Slide 6) — architecture, data, and constraints
+## RAG Demo (Slide 3) — architecture, data, and constraints
 Live retrieval-augmented generation demo, answering real questions grounded in this project's
 own documentation (NOT this repo's own docs — the source content is the VK AI Labs Insurance
 platform's docs, mirrored in here for the live function to read).
@@ -84,6 +94,56 @@ platform's docs, mirrored in here for the live function to read).
   real problem (not just a known limitation), Voyage AI was the preferred path if revisited —
   don't reach for a JS-bundled model first.
 
+## Knowledge Graph Demo (Slide 4) — architecture, data, and constraints
+Live interactive force-directed graph of this platform's real orchestration data
+(Story/Scenario/TestCase/Agent — actual Jira keys and real orchestration edges) bridged to
+representative insurance domain data (Customer/Policy/Premium/Claim), with a live traversal
+query panel proving graph queries actually resolve against the rendered data, not canned
+answers.
+
+- **Source of truth:** `~/vkai-labs/insurance/ai/kg/` (a sibling project, NOT this repo) is
+  where the graph is actually built — NetworkX, Python, `graph_data.py` → `build_graph.py` →
+  `kg_graph.json`. `assets/kg-graph.json` in THIS repo is a synced, trimmed export (node-link
+  format, JS-friendly field names) — regenerate the source graph there, then re-export and `cp`
+  the result into `assets/kg-graph.json` here. Same manual-sync caveat as the RAG corpus: there
+  is no automatic sync between the two; forgetting this step means the live demo silently serves
+  stale graph data.
+- **Rendering: zero-dependency vanilla JS/canvas** — no charting library, no CDN script. This is
+  *stricter* than the RAG demo's own zero-dependency rule (RAG at least calls an external
+  Anthropic API from its serverless function; this slide has no server calls at all — the whole
+  graph and every traversal query run entirely client-side against the static JSON asset).
+- **Force-directed layout is computed at runtime**, not precomputed positions in the data file.
+  Repulsion/spring constants scale with the canvas's actual width/height at layout time
+  (`k = sqrt(area / n)`, standard Fruchterman-Reingold "ideal distance" technique) rather than
+  being fixed numbers — this was a real bug fix (see Known bug patterns below): fixed constants
+  tuned for one canvas size left nodes clustered in the middle once the canvas was resized.
+- **Query panel is a fixed set of 4 traversal types**, not click-to-explore: test cases for a
+  Story, claims for a Policy, agents for a Story, policies for a Customer. This was a deliberate
+  choice over open-ended node-clicking — for an interview/client audience, a guided "watch this
+  resolve a real question" demo is more reliable and tells a clearer story than an exploratory
+  tool that puts the burden of figuring out what to click on the viewer. Do not add click-to-
+  explore without explicit direction; this was a considered scope decision, not a shortcut.
+- **`COVERS` edges are a deliberate modeling bridge, not raw source data**: each test Scenario
+  connects to exactly ONE representative Policy/Premium/Claim instance (keyed by its test
+  module), not every instance of that entity type. An earlier type-wide fan-out version made
+  every scenario visually "cover" all 2-3 records of a type, which was both visually noisy and
+  semantically misleading. Rendered as dashed lines, distinct from the solid lines used for real
+  orchestration/business edges (`HAS_SCENARIO`, `VERIFIED_BY`, `RELATES_TO`, `IMPLEMENTED`,
+  `CLOSED`, `AUTHORED`, `OWNS`, `HAS_PREMIUM`, `HAS_CLAIM`).
+- **Data is a mix of real and synthetic, by design**: Agent/Story/Scenario/TestCase nodes and
+  their edges are 100% real, pulled directly from this project's actual Jira history and
+  orchestration setup log. Customer/Policy/Premium/Claim nodes are synthetic, schema-accurate
+  representative records (no live DB connection — this is a standalone POC, same "no new infra"
+  principle as the RAG POC). Do not present the insurance-domain records as real customer data.
+- **A real traversal bug was caught and fixed here** — not a designed-in feature, worth knowing
+  if extending the query set further: the first version of "agents for a story" only walked
+  direct Story→Agent edges and under-reported real results, because 2 of the real agents involved
+  (`agent-vkai-automation`, `agent-vkai-jira-update`) work at the Test Case level, not the Story
+  level directly. Fixed by also traversing through a Story's linked Test Cases. If adding new
+  query types, check the real orchestration workflow (this repo's sibling project's setup log)
+  for which relation level an agent actually operates at — don't assume direct-edges-only is
+  sufficient.
+
 ## Known bug patterns — check for these first if something seems "not clickable"
 1. **Pointer-events trap**: an inactive slide or overlay element still in the DOM with
    opacity:0 but pointer-events:auto (or missing [hidden] display:none due to CSS specificity)
@@ -105,6 +165,23 @@ platform's docs, mirrored in here for the live function to read).
    runs. Any FUTURE focusable input added to this deck must be covered by that same check —
    it's not automatic, `isTypingTarget()` only checks tag name/contentEditable, so a custom
    widget (e.g. a div-based combobox) would need to be added to that check explicitly.
+4. **Canvas sizing on `hidden` elements returns 0×0**: any `<canvas>` inside a slide that starts
+   with the HTML `hidden` attribute (all slides except Slide 1 on page load) will measure
+   `clientWidth`/`clientHeight` as `0` if sized before the slide is ever shown, silently
+   collapsing all content to a point. Size/lay out canvas content only once the slide is
+   confirmed active (watch for the `is-active` class via `MutationObserver`, same pattern as the
+   Slide 1 orchestration-motif canvas), not on page load or data-fetch-complete alone.
+5. **DOM-mutation timing races vs. actual settled layout**: a `MutationObserver` watching a class
+   change fires the instant the class changes, not once the browser has actually finished
+   computing final layout — this caused inconsistent canvas hit-testing on the Knowledge Graph
+   slide (worked in sparse areas, not in dense clusters) because sizing ran a frame before layout
+   had settled. If something depends on an element's real rendered size (not just visibility),
+   prefer `ResizeObserver` on that element over `MutationObserver` on a class/attribute.
+6. **`overflow: hidden` containers clip more than you'd expect**: a tooltip or overlay positioned
+   `absolute` inside a container with `overflow: hidden` (needed for that container's own clean
+   edges) will get silently clipped whenever it lands near that container's border. If an overlay
+   needs to escape its parent's clipping, use page-level `position: fixed` with viewport
+   coordinates (`e.clientX`/`clientY`) instead of container-relative offsets.
 
 ## Testing discipline
 Always verify fixes with actual mouse clicks and actual keyboard presses — not just code review,
