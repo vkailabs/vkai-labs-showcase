@@ -99,6 +99,13 @@
       "status": "Done"
     },
     {
+      "id": "VJS-49",
+      "type": "Story",
+      "label": "VJS-49",
+      "title": "Allow customer to cancel a Pending policy before approval on Client Portal",
+      "status": "Done"
+    },
+    {
       "id": "AUTH-004",
       "type": "Scenario",
       "label": "AUTH-004",
@@ -190,6 +197,34 @@
       "status": null
     },
     {
+      "id": "CANCEL-001",
+      "type": "Scenario",
+      "label": "CANCEL-001",
+      "title": "Pending policy card shows a Cancel button on the client dashboard",
+      "status": null
+    },
+    {
+      "id": "CANCEL-002",
+      "type": "Scenario",
+      "label": "CANCEL-002",
+      "title": "Active policy card shows no Cancel button on the client dashboard",
+      "status": null
+    },
+    {
+      "id": "CANCEL-003",
+      "type": "Scenario",
+      "label": "CANCEL-003",
+      "title": "Cancelling a Pending policy prompts a confirmation gate; dismiss leaves the Pending count unchanged",
+      "status": null
+    },
+    {
+      "id": "CANCEL-004",
+      "type": "Scenario",
+      "label": "CANCEL-004",
+      "title": "Confirming cancellation sets the policy to Cancelled and drops it from the Pending count (manual)",
+      "status": null
+    },
+    {
       "id": "VJS-TC-AUTH-004",
       "type": "TestCase",
       "label": "VJS-TC-AUTH-004",
@@ -256,6 +291,27 @@
       "id": "VJS-TC-E2E-001",
       "type": "TestCase",
       "label": "VJS-TC-E2E-001",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "VJS-50",
+      "type": "TestCase",
+      "label": "VJS-50",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "VJS-51",
+      "type": "TestCase",
+      "label": "VJS-51",
+      "title": null,
+      "status": "Done"
+    },
+    {
+      "id": "VJS-52",
+      "type": "TestCase",
+      "label": "VJS-52",
       "title": null,
       "status": "Done"
     },
@@ -340,8 +396,18 @@
       "relation": "IMPLEMENTED"
     },
     {
+      "source": "subAgent-vkai-client",
+      "target": "VJS-49",
+      "relation": "IMPLEMENTED"
+    },
+    {
       "source": "subAgent-vkai-client-api",
       "target": "VJS-48",
+      "relation": "IMPLEMENTED"
+    },
+    {
+      "source": "subAgent-vkai-client-api",
+      "target": "VJS-49",
       "relation": "IMPLEMENTED"
     },
     {
@@ -360,6 +426,11 @@
       "relation": "IMPLEMENTED"
     },
     {
+      "source": "subAgent-vkai-provider",
+      "target": "VJS-49",
+      "relation": "IMPLEMENTED"
+    },
+    {
       "source": "subAgent-vkai-provider-api",
       "target": "VJS-46",
       "relation": "IMPLEMENTED"
@@ -370,6 +441,11 @@
       "relation": "IMPLEMENTED"
     },
     {
+      "source": "subAgent-vkai-provider-api",
+      "target": "VJS-49",
+      "relation": "IMPLEMENTED"
+    },
+    {
       "source": "agent-vkai-automation",
       "target": "VJS-TC-AUTH-004",
       "relation": "AUTHORED"
@@ -420,6 +496,21 @@
       "relation": "AUTHORED"
     },
     {
+      "source": "agent-vkai-automation",
+      "target": "VJS-50",
+      "relation": "AUTHORED"
+    },
+    {
+      "source": "agent-vkai-automation",
+      "target": "VJS-51",
+      "relation": "AUTHORED"
+    },
+    {
+      "source": "agent-vkai-automation",
+      "target": "VJS-52",
+      "relation": "AUTHORED"
+    },
+    {
       "source": "agent-vkai-jira-update",
       "target": "VJS-TC-AUTH-004",
       "relation": "CLOSED"
@@ -467,6 +558,21 @@
     {
       "source": "agent-vkai-jira-update",
       "target": "VJS-TC-E2E-001",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-50",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-51",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-52",
       "relation": "CLOSED"
     },
     {
@@ -497,6 +603,11 @@
     {
       "source": "agent-vkai-jira-story",
       "target": "VJS-48",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-story",
+      "target": "VJS-49",
       "relation": "CLOSED"
     },
     {
@@ -543,6 +654,41 @@
       "source": "VJS-48",
       "target": "PREM-003",
       "relation": "HAS_SCENARIO"
+    },
+    {
+      "source": "VJS-49",
+      "target": "CANCEL-001",
+      "relation": "HAS_SCENARIO"
+    },
+    {
+      "source": "VJS-49",
+      "target": "CANCEL-002",
+      "relation": "HAS_SCENARIO"
+    },
+    {
+      "source": "VJS-49",
+      "target": "CANCEL-003",
+      "relation": "HAS_SCENARIO"
+    },
+    {
+      "source": "VJS-49",
+      "target": "CANCEL-004",
+      "relation": "HAS_SCENARIO"
+    },
+    {
+      "source": "VJS-49",
+      "target": "VJS-50",
+      "relation": "RELATES_TO"
+    },
+    {
+      "source": "VJS-49",
+      "target": "VJS-51",
+      "relation": "RELATES_TO"
+    },
+    {
+      "source": "VJS-49",
+      "target": "VJS-52",
+      "relation": "RELATES_TO"
     },
     {
       "source": "AUTH-004",
@@ -642,6 +788,41 @@
     {
       "source": "PREM-003",
       "target": "PREM-5001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "CANCEL-001",
+      "target": "VJS-50",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "CANCEL-001",
+      "target": "POL-1001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "CANCEL-002",
+      "target": "VJS-51",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "CANCEL-002",
+      "target": "POL-1001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "CANCEL-003",
+      "target": "VJS-52",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "CANCEL-003",
+      "target": "POL-1001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "CANCEL-004",
+      "target": "POL-1001",
       "relation": "COVERS"
     },
     {
