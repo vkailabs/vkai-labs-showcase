@@ -92,6 +92,13 @@
       "status": "Done"
     },
     {
+      "id": "VJS-48",
+      "type": "Story",
+      "label": "VJS-48",
+      "title": "Provider Portal, 'Premiums' tab, update Premium Table.",
+      "status": "Done"
+    },
+    {
       "id": "AUTH-004",
       "type": "Scenario",
       "label": "AUTH-004",
@@ -173,6 +180,13 @@
       "type": "Scenario",
       "label": "CLM-005",
       "title": "Provider Portal, 'Claims' tab change colour to Light Green of badges for Paid Claims",
+      "status": null
+    },
+    {
+      "id": "PREM-003",
+      "type": "Scenario",
+      "label": "PREM-003",
+      "title": "Provider Portal, 'Premiums' tab, update premium table",
       "status": null
     },
     {
@@ -326,6 +340,11 @@
       "relation": "IMPLEMENTED"
     },
     {
+      "source": "subAgent-vkai-client-api",
+      "target": "VJS-48",
+      "relation": "IMPLEMENTED"
+    },
+    {
       "source": "subAgent-vkai-provider",
       "target": "VJS-47",
       "relation": "IMPLEMENTED"
@@ -336,8 +355,18 @@
       "relation": "IMPLEMENTED"
     },
     {
+      "source": "subAgent-vkai-provider",
+      "target": "VJS-48",
+      "relation": "IMPLEMENTED"
+    },
+    {
       "source": "subAgent-vkai-provider-api",
       "target": "VJS-46",
+      "relation": "IMPLEMENTED"
+    },
+    {
+      "source": "subAgent-vkai-provider-api",
+      "target": "VJS-48",
       "relation": "IMPLEMENTED"
     },
     {
@@ -466,6 +495,11 @@
       "relation": "CLOSED"
     },
     {
+      "source": "agent-vkai-jira-story",
+      "target": "VJS-48",
+      "relation": "CLOSED"
+    },
+    {
       "source": "VJS-47",
       "target": "CLM-005",
       "relation": "HAS_SCENARIO"
@@ -504,6 +538,11 @@
       "source": "VJS-43",
       "target": "VJS-TC-DASH-001",
       "relation": "RELATES_TO"
+    },
+    {
+      "source": "VJS-48",
+      "target": "PREM-003",
+      "relation": "HAS_SCENARIO"
     },
     {
       "source": "AUTH-004",
@@ -598,6 +637,11 @@
     {
       "source": "CLM-005",
       "target": "CLM-9001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "PREM-003",
+      "target": "PREM-5001",
       "relation": "COVERS"
     },
     {
