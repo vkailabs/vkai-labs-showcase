@@ -57,6 +57,13 @@
       "status": null
     },
     {
+      "id": "VJS-47",
+      "type": "Story",
+      "label": "VJS-47",
+      "title": "Provider Portal, 'Claims' tab change colour to Light Green of badges for Paid Claims",
+      "status": "Done"
+    },
+    {
       "id": "VJS-46",
       "type": "Story",
       "label": "VJS-46",
@@ -159,6 +166,13 @@
       "type": "Scenario",
       "label": "CLM-004",
       "title": "Add \"Policy Name\" for each claim shown under claims tab in Provider Portal",
+      "status": null
+    },
+    {
+      "id": "CLM-005",
+      "type": "Scenario",
+      "label": "CLM-005",
+      "title": "Provider Portal, 'Claims' tab change colour to Light Green of badges for Paid Claims",
       "status": null
     },
     {
@@ -313,6 +327,11 @@
     },
     {
       "source": "subAgent-vkai-provider",
+      "target": "VJS-47",
+      "relation": "IMPLEMENTED"
+    },
+    {
+      "source": "subAgent-vkai-provider",
       "target": "VJS-46",
       "relation": "IMPLEMENTED"
     },
@@ -423,6 +442,11 @@
     },
     {
       "source": "agent-vkai-jira-story",
+      "target": "VJS-47",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-story",
       "target": "VJS-46",
       "relation": "CLOSED"
     },
@@ -440,6 +464,11 @@
       "source": "agent-vkai-jira-story",
       "target": "VJS-43",
       "relation": "CLOSED"
+    },
+    {
+      "source": "VJS-47",
+      "target": "CLM-005",
+      "relation": "HAS_SCENARIO"
     },
     {
       "source": "VJS-46",
@@ -563,6 +592,11 @@
     },
     {
       "source": "CLM-004",
+      "target": "CLM-9001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "CLM-005",
       "target": "CLM-9001",
       "relation": "COVERS"
     },
