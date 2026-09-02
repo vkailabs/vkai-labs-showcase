@@ -106,6 +106,13 @@
       "status": "Done"
     },
     {
+      "id": "VJS-53",
+      "type": "Story",
+      "label": "VJS-53",
+      "title": "Show total policy count next to the \"Your Policies\" heading on Client Portal Dashboard",
+      "status": "Done"
+    },
+    {
       "id": "AUTH-004",
       "type": "Scenario",
       "label": "AUTH-004",
@@ -225,6 +232,20 @@
       "status": null
     },
     {
+      "id": "DASH-005",
+      "type": "Scenario",
+      "label": "DASH-005",
+      "title": "Dashboard heading shows the visible-policy count in parentheses",
+      "status": null
+    },
+    {
+      "id": "DASH-006",
+      "type": "Scenario",
+      "label": "DASH-006",
+      "title": "Dashboard heading shows \"Your Policies (0)\" when zero policies exist (manual)",
+      "status": null
+    },
+    {
       "id": "VJS-TC-AUTH-004",
       "type": "TestCase",
       "label": "VJS-TC-AUTH-004",
@@ -316,6 +337,13 @@
       "status": "Done"
     },
     {
+      "id": "VJS-54",
+      "type": "TestCase",
+      "label": "VJS-54",
+      "title": null,
+      "status": "Done"
+    },
+    {
       "id": "CUST-001",
       "type": "Customer",
       "label": "CUST-001",
@@ -401,6 +429,11 @@
       "relation": "IMPLEMENTED"
     },
     {
+      "source": "subAgent-vkai-client",
+      "target": "VJS-53",
+      "relation": "IMPLEMENTED"
+    },
+    {
       "source": "subAgent-vkai-client-api",
       "target": "VJS-48",
       "relation": "IMPLEMENTED"
@@ -511,6 +544,11 @@
       "relation": "AUTHORED"
     },
     {
+      "source": "agent-vkai-automation",
+      "target": "VJS-54",
+      "relation": "AUTHORED"
+    },
+    {
       "source": "agent-vkai-jira-update",
       "target": "VJS-TC-AUTH-004",
       "relation": "CLOSED"
@@ -573,6 +611,11 @@
     {
       "source": "agent-vkai-jira-update",
       "target": "VJS-52",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-update",
+      "target": "VJS-54",
       "relation": "CLOSED"
     },
     {
@@ -608,6 +651,11 @@
     {
       "source": "agent-vkai-jira-story",
       "target": "VJS-49",
+      "relation": "CLOSED"
+    },
+    {
+      "source": "agent-vkai-jira-story",
+      "target": "VJS-53",
       "relation": "CLOSED"
     },
     {
@@ -688,6 +736,21 @@
     {
       "source": "VJS-49",
       "target": "VJS-52",
+      "relation": "RELATES_TO"
+    },
+    {
+      "source": "VJS-53",
+      "target": "DASH-005",
+      "relation": "HAS_SCENARIO"
+    },
+    {
+      "source": "VJS-53",
+      "target": "DASH-006",
+      "relation": "HAS_SCENARIO"
+    },
+    {
+      "source": "VJS-53",
+      "target": "VJS-54",
       "relation": "RELATES_TO"
     },
     {
@@ -822,6 +885,21 @@
     },
     {
       "source": "CANCEL-004",
+      "target": "POL-1001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "DASH-005",
+      "target": "VJS-54",
+      "relation": "VERIFIED_BY"
+    },
+    {
+      "source": "DASH-005",
+      "target": "POL-1001",
+      "relation": "COVERS"
+    },
+    {
+      "source": "DASH-006",
       "target": "POL-1001",
       "relation": "COVERS"
     },
